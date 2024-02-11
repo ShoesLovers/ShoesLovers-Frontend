@@ -4,7 +4,7 @@ import styled from "styled-components";
 function LogIn() {
   return (
     <Div>
-      <Img loading="lazy" srcSet="src\assets\images\chess.png" />
+      <Img loading="lazy" srcSet="src\assets\images\chess.jpg" />
       <Div2>
         <Div3>
           <Column>
@@ -126,7 +126,7 @@ const Div2 = styled.div`
   margin-top: 82px;
   width: 1213px;
   max-width: 100%;
-  padding: 0 0 7px 12px;
+  padding: 12px 12px 12px 12px;
   @media (max-width: 991px) {
     margin-top: 40px;
   }
