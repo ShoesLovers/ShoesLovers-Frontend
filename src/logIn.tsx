@@ -61,8 +61,7 @@ function LogIn() {
                 <Div13>
                   <Column7>
                     <Div14>
-                      Shoes <span>Lovers</span>
-                      <br />
+                      <span>Shoes Lovers</span>
                     </Div14>
                   </Column7>
                   <Column8>
