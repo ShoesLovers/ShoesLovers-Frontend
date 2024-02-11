@@ -101,7 +101,7 @@ const Div = styled.div`
   align-items: center;
   overflow: hidden;
   position: relative;
-  height: 100vh; // Set the height to the viewport height
+  height: 100vh;
   justify-content: center;
   padding: 50px 60px;
   @media (max-width: 991px) {
