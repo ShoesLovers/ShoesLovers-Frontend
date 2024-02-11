@@ -372,9 +372,10 @@ const Column7 = styled.div`
 `;
 
 const Div14 = styled.div`
-  color: #230f0f;
+  color: #930f0f;
   text-align: center;
   margin-top: 91px;
+  margin-right: 30.03px;
   font: 700 40px Roboto, sans-serif;
   @media (max-width: 991px) {
     margin-top: 40px;
@@ -469,7 +470,7 @@ const Div20 = styled.div`
   background-color: #0e0f10;
   margin-top: 48px;
   color: #fff;
-  padding: 15px 60px;
+  padding: 13px 205px;
   font: 700 14px Inter, sans-serif;
   @media (max-width: 991px) {
     max-width: 100%;
