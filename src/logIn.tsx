@@ -96,13 +96,12 @@ function LogIn() {
 }
 
 const Div = styled.div`
-  disply: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
   position: relative;
-  display: flex;
-  min-height: 1024px;
+  height: 100vh; // Set the height to the viewport height
   justify-content: center;
   padding: 50px 60px;
   @media (max-width: 991px) {
