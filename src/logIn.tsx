@@ -1,5 +1,5 @@
-import * as React from "react";
-import styled from "styled-components";
+import * as React from 'react'
+import styled from 'styled-components'
 
 function LogIn() {
   return (
@@ -92,7 +92,7 @@ function LogIn() {
         </Div3>
       </Div2>
     </Div>
-  );
+  )
 }
 
 const Div = styled.div`
@@ -107,7 +107,7 @@ const Div = styled.div`
   @media (max-width: 991px) {
     padding: 0 20px;
   }
-`;
+`
 
 const Img = styled.img`
   position: absolute;
@@ -116,7 +116,7 @@ const Img = styled.img`
   width: 100%;
   object-fit: cover;
   object-position: center;
-`;
+`
 
 const Div2 = styled.div`
   position: relative;
@@ -128,7 +128,7 @@ const Div2 = styled.div`
   @media (max-width: 991px) {
     margin-top: 40px;
   }
-`;
+`
 
 const Div3 = styled.div`
   gap: 20px;
@@ -138,7 +138,7 @@ const Div3 = styled.div`
     align-items: stretch;
     gap: 0px;
   }
-`;
+`
 
 const Column = styled.div`
   display: flex;
@@ -149,7 +149,7 @@ const Column = styled.div`
   @media (max-width: 991px) {
     width: 100%;
   }
-`;
+`
 
 const Div4 = styled.div`
   position: relative;
@@ -161,7 +161,7 @@ const Div4 = styled.div`
     max-width: 100%;
     margin-top: 40px;
   }
-`;
+`
 
 const Img2 = styled.img`
   aspect-ratio: 2.08;
@@ -173,14 +173,14 @@ const Img2 = styled.img`
   @media (max-width: 991px) {
     max-width: 100%;
   }
-`;
+`
 
 const Div5 = styled.div`
   margin-top: 9px;
   @media (max-width: 991px) {
     max-width: 100%;
   }
-`;
+`
 
 const Div6 = styled.div`
   gap: 20px;
@@ -190,7 +190,7 @@ const Div6 = styled.div`
     align-items: stretch;
     gap: 0px;
   }
-`;
+`
 
 const Column2 = styled.div`
   display: flex;
@@ -201,7 +201,7 @@ const Column2 = styled.div`
   @media (max-width: 991px) {
     width: 100%;
   }
-`;
+`
 
 const Div7 = styled.div`
   display: flex;
@@ -211,14 +211,14 @@ const Div7 = styled.div`
   @media (max-width: 991px) {
     margin-top: 11px;
   }
-`;
+`
 
 const Img3 = styled.img`
   aspect-ratio: 0.95;
   object-fit: auto;
   object-position: center;
   width: 217px;
-`;
+`
 
 const Img4 = styled.img`
   aspect-ratio: 1.32;
@@ -226,7 +226,7 @@ const Img4 = styled.img`
   object-position: center;
   width: 217px;
   margin-top: 7px;
-`;
+`
 
 const Column3 = styled.div`
   display: flex;
@@ -237,7 +237,7 @@ const Column3 = styled.div`
   @media (max-width: 991px) {
     width: 100%;
   }
-`;
+`
 
 const Div8 = styled.div`
   display: flex;
@@ -247,7 +247,7 @@ const Div8 = styled.div`
     max-width: 100%;
     margin-top: 11px;
   }
-`;
+`
 
 const Img5 = styled.img`
   aspect-ratio: 1.69;
@@ -257,14 +257,14 @@ const Img5 = styled.img`
   @media (max-width: 991px) {
     max-width: 100%;
   }
-`;
+`
 
 const Div9 = styled.div`
   margin-top: 8px;
   @media (max-width: 991px) {
     max-width: 100%;
   }
-`;
+`
 
 const Div10 = styled.div`
   gap: 20px;
@@ -274,7 +274,7 @@ const Div10 = styled.div`
     align-items: stretch;
     gap: 0px;
   }
-`;
+`
 
 const Column4 = styled.div`
   display: flex;
@@ -285,7 +285,7 @@ const Column4 = styled.div`
   @media (max-width: 991px) {
     width: 100%;
   }
-`;
+`
 
 const Img6 = styled.img`
   aspect-ratio: 2.38;
@@ -296,7 +296,7 @@ const Img6 = styled.img`
   @media (max-width: 991px) {
     margin-top: 11px;
   }
-`;
+`
 
 const Column5 = styled.div`
   display: flex;
@@ -307,7 +307,7 @@ const Column5 = styled.div`
   @media (max-width: 991px) {
     width: 100%;
   }
-`;
+`
 
 const Img7 = styled.img`
   aspect-ratio: 1.33;
@@ -319,7 +319,7 @@ const Img7 = styled.img`
   @media (max-width: 991px) {
     margin-top: 11px;
   }
-`;
+`
 
 const Column6 = styled.div`
   display: flex;
@@ -330,7 +330,7 @@ const Column6 = styled.div`
   @media (max-width: 991px) {
     width: 100%;
   }
-`;
+`
 
 const Div11 = styled.div`
   position: relative;
@@ -340,14 +340,14 @@ const Div11 = styled.div`
     max-width: 100%;
     margin-top: 40px;
   }
-`;
+`
 
 const Div12 = styled.div`
   padding: 0 1px;
   @media (max-width: 991px) {
     max-width: 100%;
   }
-`;
+`
 
 const Div13 = styled.div`
   gap: 20px;
@@ -357,7 +357,7 @@ const Div13 = styled.div`
     align-items: stretch;
     gap: 0px;
   }
-`;
+`
 
 const Column7 = styled.div`
   display: flex;
@@ -368,7 +368,7 @@ const Column7 = styled.div`
   @media (max-width: 991px) {
     width: 100%;
   }
-`;
+`
 
 const Div14 = styled.div`
   color: #930f0f;
@@ -379,7 +379,7 @@ const Div14 = styled.div`
   @media (max-width: 991px) {
     margin-top: 40px;
   }
-`;
+`
 
 const Column8 = styled.div`
   display: flex;
@@ -390,7 +390,7 @@ const Column8 = styled.div`
   @media (max-width: 991px) {
     width: 100%;
   }
-`;
+`
 
 const Img8 = styled.img`
   aspect-ratio: 0.81;
@@ -402,7 +402,7 @@ const Img8 = styled.img`
   @media (max-width: 991px) {
     margin-top: 40px;
   }
-`;
+`
 
 const Div15 = styled.div`
   color: #0f1423;
@@ -411,7 +411,7 @@ const Div15 = styled.div`
   @media (max-width: 991px) {
     max-width: 100%;
   }
-`;
+`
 
 const Div16 = styled.div`
   color: #0f1423;
@@ -421,7 +421,7 @@ const Div16 = styled.div`
     max-width: 100%;
     margin-top: 40px;
   }
-`;
+`
 
 const Div17 = styled.div`
   align-items: start;
@@ -436,7 +436,7 @@ const Div17 = styled.div`
     max-width: 100%;
     padding-right: 20px;
   }
-`;
+`
 
 const Div18 = styled.div`
   color: #0f1423;
@@ -445,7 +445,7 @@ const Div18 = styled.div`
   @media (max-width: 991px) {
     max-width: 100%;
   }
-`;
+`
 
 const Div19 = styled.div`
   align-items: start;
@@ -460,7 +460,7 @@ const Div19 = styled.div`
     max-width: 100%;
     padding-right: 20px;
   }
-`;
+`
 
 const Div20 = styled.div`
   justify-content: center;
@@ -476,14 +476,14 @@ const Div20 = styled.div`
     margin-top: 40px;
     padding: 0 20px;
   }
-`;
+`
 
 const Div21 = styled.div`
   color: #646464;
   align-self: center;
   margin-top: 24px;
   font: 400 14px Inter, sans-serif;
-`;
+`
 
 const Img9 = styled.img`
   aspect-ratio: 2.63;
@@ -493,7 +493,7 @@ const Img9 = styled.img`
   align-self: center;
   margin-top: 19px;
   max-width: 100%;
-`;
+`
 
 const Div22 = styled.div`
   color: #0f1423;
@@ -505,5 +505,5 @@ const Div22 = styled.div`
   @media (max-width: 991px) {
     white-space: initial;
   }
-`;
-export default LogIn;
+`
+export default LogIn
