@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Column,
   Column2,
@@ -43,9 +43,27 @@ import {
 
 function Login() {
   const [email, setEmail] = useState('');
-  console.log(email);
   const [password, setPassword] = useState('');
 
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed: ' + response.statusText);
+      }
+
+      console.log('Login successful');
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
   return (
     <Div>
       <Img loading="lazy" srcSet="src\assets\images\chess.jpg" />
@@ -118,16 +136,21 @@ function Login() {
               </Div12>
               <Div15>Welcome Back!</Div15>
               <Div16>Email</Div16>
-              <Div17>
-                <input
-                  type="text"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                />
-              </Div17>
+              <Div17
+                type="text"
+                onChange={e => {
+                  setEmail(e.target.value);
+                }}
+              />
               <Div18>Password</Div18>
-              <Div19>Your password</Div19>
-              <Div20>Log in</Div20>
+              <Div19
+                type="password"
+                onChange={e => {
+                  setPassword(e.target.value);
+                }}
+              />
+
+              <Div20 onClick={handleLogin}>Log in</Div20>
               <Div21>Or</Div21>
               <Img9
                 loading="lazy"

@@ -328,13 +328,12 @@ const Div16 = styled.div`
   }
 `;
 
-const Div17 = styled.div`
+const Div17 = styled.input`
   align-items: start;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.02);
   background-color: #fff;
   margin-top: 11px;
   justify-content: center;
-  color: #d4d4d4;
   padding: 14px 60px 14px 16px;
   font: 400 16px Inter, sans-serif;
   @media (max-width: 991px) {
@@ -352,13 +351,12 @@ const Div18 = styled.div`
   }
 `;
 
-const Div19 = styled.div`
+const Div19 = styled.input`
   align-items: start;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.02);
   background-color: #fff;
   margin-top: 11px;
   justify-content: center;
-  color: #d4d4d4;
   padding: 14px 60px 14px 16px;
   font: 400 16px Inter, sans-serif;
   @media (max-width: 991px) {
@@ -367,7 +365,7 @@ const Div19 = styled.div`
   }
 `;
 
-const Div20 = styled.div`
+const Div20 = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: 12px;
