@@ -75,16 +75,16 @@ function Login() {
         <input
           name="email"
           className="email_input"
-          onChange={e => setEmail(e.target.value)}
           value={email}
+          onChange={e => setEmail(e.target.value)}
         />
 
         <span className="password_span">Password</span>
         <input
-          type="password"
           name="password"
-          value={password}
           className="password_input"
+          type="password"
+          value={password}
           onChange={e => setPassword(e.target.value)}
         />
 
