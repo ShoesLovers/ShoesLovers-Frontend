@@ -1,10 +1,11 @@
-import LogIn from './Login';
+import AppLayout from './AppLayout';
+import Login from './Login';
 
 function App() {
   return (
-    <div>
-      <LogIn />;
-    </div>
+    <AppLayout>
+      <Login />
+    </AppLayout>
   );
 }
 
