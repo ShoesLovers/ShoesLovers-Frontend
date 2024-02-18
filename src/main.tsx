@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './login.css';
-
 import 'bootstrap/dist/css/bootstrap.css';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import App from './components/App.tsx';
 
-import LogIn from './logIn.tsx';
+const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <LogIn />
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
   </React.StrictMode>
 );
