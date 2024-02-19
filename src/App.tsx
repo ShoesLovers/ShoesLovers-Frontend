@@ -7,9 +7,6 @@ function App() {
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
 
-  if (accessToken) {
-    console.log('accessToken:', accessToken);
-  }
   return (
     <AppLayout>
       <Login
