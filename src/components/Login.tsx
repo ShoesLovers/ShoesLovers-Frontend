@@ -56,9 +56,9 @@ export default function Login() {
           <button className="login" disabled={isPending}>
             Log in
           </button>
-          <h5 className="or">Or</h5>
+          {/* <h5 className="or">Or</h5>
           <h5 className="SignUp">Sign in with Google</h5>
-          <div className="SignUp" id="signInDiv"></div>
+          <div className="SignUp" id="signInDiv"></div> */}
         </form>
       )}
     </>
