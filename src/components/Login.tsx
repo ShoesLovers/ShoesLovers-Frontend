@@ -1,38 +1,37 @@
 import { useState } from 'react';
 import '../styles/login.css';
-import { useMutation } from '@tanstack/react-query';
-import LoginAPI from '../api/auth';
+import { useLogin } from '../hooks/useLogin';
+import toast from 'react-hot-toast';
 
-function Login({ setAccessToken, setRefreshToken, setUser }) {
+export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { mutateAsync: login, isPending } = useMutation({
-    mutationFn: LoginAPI,
-    onSuccess: data => {
-      const { account: user, accessToken, refreshToken } = data;
-      setUser(user);
-      setAccessToken(accessToken);
-      setRefreshToken(refreshToken);
-    },
-    onSettled: () => {
-      setEmail('');
-      setPassword('');
-    },
-  });
+  const { login, isPending } = useLogin();
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!email || !password) {
+      toast.error('Please provide email and password!');
+      return;
+    }
+    login(
+      { email, password },
+      {
+        onSettled: () => {
+          setEmail('');
+          setPassword('');
+        },
+      }
+    );
+  }
 
   return (
     <>
       {isPending ? (
-        <span>Loading...</span>
+        <div className="loading">Loading...</div>
       ) : (
-        <form
-          className="form"
-          onSubmit={async e => {
-            e.preventDefault();
-            login({ email, password });
-          }}
-        >
+        <form className="form" onSubmit={handleSubmit}>
           <h2 className="title">Shoes Lovers</h2>
           <h3 className="welcome">Welcome Back!</h3>
 
@@ -44,7 +43,6 @@ function Login({ setAccessToken, setRefreshToken, setUser }) {
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
-
           <span className="password_span">Password</span>
           <input
             disabled={isPending}
@@ -55,7 +53,7 @@ function Login({ setAccessToken, setRefreshToken, setUser }) {
             onChange={e => setPassword(e.target.value)}
           />
 
-          <button className="logIn" disabled={isPending}>
+          <button className="login" disabled={isPending}>
             Log in
           </button>
           <h5 className="or">Or</h5>
@@ -66,4 +64,3 @@ function Login({ setAccessToken, setRefreshToken, setUser }) {
     </>
   );
 }
-export default Login;
