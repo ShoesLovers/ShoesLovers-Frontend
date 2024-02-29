@@ -1,13 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.css';
+
 import App from './App.tsx';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <QueryClientProvider client={new QueryClient()}>
-      <App />
-    </QueryClientProvider>
+    <App />
   </React.StrictMode>
 );

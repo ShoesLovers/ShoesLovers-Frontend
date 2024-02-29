@@ -1,11 +1,25 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import AppLayout from './components/AppLayout';
-import Login from './components/Login';
 
+import Login from './components/Login';
+import NotFoundPage from './components/NotFoundPage';
+import AppLayout from './components/AppLayout';
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: (
+      <AppLayout>
+        <Login />
+      </AppLayout>
+    ),
+    errorElement: <NotFoundPage />,
+  },
+]);
 function App() {
   return (
-    <AppLayout>
-      <Login />
+    <QueryClientProvider client={new QueryClient()}>
+      <RouterProvider router={router} />
       <Toaster
         position="top-center"
         gutter={12}
@@ -34,7 +48,7 @@ function App() {
           },
         }}
       />
-    </AppLayout>
+    </QueryClientProvider>
   );
 }
 
