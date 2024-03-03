@@ -8,23 +8,32 @@ import MyAccount from './pages/MyAccount';
 import { useState } from 'react';
 import Posts from './pages/Posts';
 
-export type User = {
+export type dbAccount = {
+  name: string;
+  email: string;
+  _id: string;
+  posts: string[];
+  refreshTokens: string[];
+  password: string;
+  __v: number;
+};
+
+export interface User {
   accessToken: string;
   refreshToken: string;
   isLoggedIn: boolean;
-  user: {
-    name: string;
-    password: string;
-    posts: [];
-    refreshTokens: string[];
-    __v: number;
-    _id: string;
-  };
-};
+  user: dbAccount;
+}
 
 function App() {
-  const userFromLocal = JSON.parse(localStorage.getItem('user') || '{}');
-  const [user, setUser] = useState(userFromLocal);
+  const userFromLocal: User = JSON.parse(
+    localStorage.getItem('user') || '{}'
+  ) || {
+    accessToken: '',
+    refreshToken: '',
+    isLoggedIn: false,
+  };
+  const [user, setUser] = useState<User>(userFromLocal);
   const router = createBrowserRouter([
     {
       path: '/',

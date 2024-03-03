@@ -3,9 +3,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
 import { Col, Container, Row, Form, Button } from 'react-bootstrap';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { LoginAPI } from '../api/auth';
-import { useNavigate } from 'react-router-dom';
+import { useLogin } from '../hooks/useLogin';
 import { User } from '../App';
 
 const schema = z.object({
@@ -13,14 +11,9 @@ const schema = z.object({
   password: z.string().min(8).max(16),
 });
 
-type loginProps = {
-  setUser: (value: User) => void;
-};
+export type FormFields = z.infer<typeof schema>;
 
-type FormFields = z.infer<typeof schema>;
-
-export default function Login({ setUser }: loginProps) {
-  const navigate = useNavigate();
+export default function Login({ setUser }: { setUser: (user: User) => void }) {
   const {
     setValue,
     register,
@@ -33,37 +26,16 @@ export default function Login({ setUser }: loginProps) {
     resolver: zodResolver(schema),
   });
 
-  const queryClient = useQueryClient();
-  const { mutate: login, isPending } = useMutation({
-    mutationFn: ({ email, password }: FormFields) =>
-      LoginAPI({ email, password }),
-    onSuccess: data => {
-      queryClient.setQueryData(['user'], data.account);
-      const user = {
-        accessToken: data.accessToken,
-        refreshToken: data.refreshToken,
-        isLoggedIn: true,
-        user: data.account,
-      };
-
-      setUser({ ...user, isLoggedIn: true });
-      localStorage.setItem('user', JSON.stringify(user));
-      toast.success(
-        `Hello ${data.account.name}! You have successfully logged in 😄`
-      );
-      navigate('/myaccount');
-    },
-    onError: () => {
-      toast.error('Invalid Email or Password, Please try again. 😢');
-    },
-    onSettled: () => {
-      setValue('email', '');
-      setValue('password', '');
-    },
-  });
+  const { login, isPending } = useLogin(setUser);
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
-    login(data);
+    login(data, {
+      onError: () => {
+        toast.error('Invalid Email or Password, Please try again. 😢');
+        setValue('password', '');
+        setValue('email', '');
+      },
+    });
   };
 
   return (
