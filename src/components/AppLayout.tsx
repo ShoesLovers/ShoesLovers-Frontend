@@ -3,12 +3,13 @@ import { Container } from 'react-bootstrap';
 import MyNavBar from './MyNavbar';
 import { User } from '../App';
 
-export type loggedInProps = {
+export default function AppLayout({
+  user,
+  setUser,
+}: {
   user: User;
-  setUser: (value: User) => void;
-};
-
-export default function AppLayout({ user, setUser }: loggedInProps) {
+  setUser: (user: User) => void;
+}) {
   return (
     <div>
       <MyNavBar user={user} setUser={setUser} />
