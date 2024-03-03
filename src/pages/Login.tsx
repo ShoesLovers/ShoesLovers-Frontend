@@ -6,18 +6,20 @@ import { Col, Container, Row, Form, Button } from 'react-bootstrap';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoginAPI } from '../api/auth';
 import { useNavigate } from 'react-router-dom';
+import { User } from '../App';
 
 const schema = z.object({
   email: z.string().email(),
   password: z.string().min(8).max(16),
 });
+
 type loginProps = {
-  setIsLoggedin: (value: boolean) => void;
+  setUser: (value: User) => void;
 };
 
 type FormFields = z.infer<typeof schema>;
 
-export default function Login({ setIsLoggedin }: loginProps) {
+export default function Login({ setUser }: loginProps) {
   const navigate = useNavigate();
   const {
     setValue,
@@ -37,10 +39,15 @@ export default function Login({ setIsLoggedin }: loginProps) {
       LoginAPI({ email, password }),
     onSuccess: data => {
       queryClient.setQueryData(['user'], data.account);
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('accessToken', data.accessToken);
-      localStorage.setItem('refreshToken', data.refreshToken);
-      setIsLoggedin(true);
+      const user = {
+        accessToken: data.accessToken,
+        refreshToken: data.refreshToken,
+        isLoggedIn: true,
+        user: data.account,
+      };
+
+      setUser({ ...user, isLoggedIn: true });
+      localStorage.setItem('user', JSON.stringify(user));
       toast.success(
         `Hello ${data.account.name}! You have successfully logged in 😄`
       );

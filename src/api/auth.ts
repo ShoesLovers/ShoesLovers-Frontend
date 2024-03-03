@@ -34,11 +34,13 @@ export async function RegisterAPI({ email, password, name }: RegisterProps) {
 }
 
 export async function LogoutAPI() {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const refreshToken = user.refreshToken;
   await fetch('http://localhost:3000/auth/logout', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'JWT ' + localStorage.getItem('refreshToken'),
+      Authorization: `JWT ${refreshToken}`,
     },
   });
 }

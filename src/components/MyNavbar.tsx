@@ -7,14 +7,13 @@ import { LogoutAPI } from '../api/auth';
 import toast from 'react-hot-toast';
 import { loggedInProps } from './AppLayout';
 
-export default function MyNavBar({ isLoggedIn, setIsLoggedIn }: loggedInProps) {
+export default function MyNavBar({ user, setUser }: loggedInProps) {
+  const isLoggedIn = user.isLoggedIn;
   const { mutate: logout } = useMutation({
     mutationFn: LogoutAPI,
     onSuccess: () => {
-      setIsLoggedIn(false);
-      localStorage.removeItem('isLoggedIn');
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      setUser({ ...user, isLoggedIn: false });
+      localStorage.removeItem('user');
       toast.success('You have successfully logged out 😄');
     },
   });
