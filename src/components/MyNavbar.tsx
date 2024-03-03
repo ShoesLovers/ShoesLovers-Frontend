@@ -1,31 +1,59 @@
+import { useMutation } from '@tanstack/react-query';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Nav } from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
 import { NavLink } from 'react-router-dom';
+import { LogoutAPI } from '../api/auth';
+import toast from 'react-hot-toast';
+import { loggedInProps } from './AppLayout';
 
-export default function MyNavBar() {
+export default function MyNavBar({ isLoggedIn, setIsLoggedIn }: loggedInProps) {
+  const { mutate: logout } = useMutation({
+    mutationFn: LogoutAPI,
+    onSuccess: () => {
+      setIsLoggedIn(false);
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      toast.success('You have successfully logged out 😄');
+    },
+  });
   return (
     <Navbar expand="md" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand href="#home">ShoesLover 👟</Navbar.Brand>
+        <NavLink to="/login" className="nav-link">
+          ShoesLover 👟
+        </NavLink>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <NavLink to="/login" className="nav-link">
-              Login
-            </NavLink>
+            {!isLoggedIn ? (
+              <>
+                <NavLink to="/login" className="nav-link">
+                  Login
+                </NavLink>
 
-            <NavLink to="/register" className="nav-link">
-              Register
-            </NavLink>
-
-            <NavLink to="/myaccount" className="nav-link">
-              My Account
-            </NavLink>
-
-            <NavLink to="/logout" className="nav-link">
-              Logout
-            </NavLink>
+                <NavLink to="/register" className="nav-link">
+                  Register
+                </NavLink>
+              </>
+            ) : (
+              <>
+                <NavLink to="/myaccount" className="nav-link">
+                  My Account
+                </NavLink>
+                <NavLink to="/posts" className="nav-link">
+                  Posts
+                </NavLink>
+                <NavLink
+                  to="/login"
+                  className="nav-link"
+                  onClick={() => logout()}
+                >
+                  Logout
+                </NavLink>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
