@@ -1,37 +1,46 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
-
 import Login from './pages/Login';
 import NotFoundPage from './pages/NotFoundPage';
 import AppLayout from './components/AppLayout';
 import Register from './pages/Register';
 import MyAccount from './pages/MyAccount';
+import { useState } from 'react';
+import Posts from './pages/Posts';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <AppLayout />,
-    children: [
-      {
-        path: 'login',
-        element: <Login />,
-      },
-      {
-        path: 'register',
-        element: <Register />,
-      },
-      {
-        path: 'myaccount',
-        element: <MyAccount />,
-      },
-    ],
-    errorElement: <NotFoundPage />,
-  },
-]);
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem('isLoggedIn') === 'true'
+  );
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: (
+        <AppLayout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      ),
+      children: [
+        {
+          path: 'login',
+          element: <Login setIsLoggedin={setIsLoggedIn} />,
+        },
+        {
+          path: 'register',
+          element: <Register />,
+        },
+        {
+          path: 'myaccount',
+          element: <MyAccount />,
+        },
+        {
+          path: 'posts',
+          element: <Posts />,
+        },
+      ],
+      errorElement: <NotFoundPage />,
+    },
+  ]);
   return (
-    <QueryClientProvider client={new QueryClient()}>
+    <>
       <RouterProvider router={router} />
       <Toaster
         position="top-center"
@@ -61,7 +70,7 @@ function App() {
           },
         }}
       />
-    </QueryClientProvider>
+    </>
   );
 }
 

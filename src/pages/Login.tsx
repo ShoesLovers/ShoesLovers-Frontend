@@ -1,18 +1,24 @@
-import { useLogin } from '../hooks/useLogin';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
 import { Col, Container, Row, Form, Button } from 'react-bootstrap';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { LoginAPI } from '../api/auth';
+import { useNavigate } from 'react-router-dom';
 
 const schema = z.object({
   email: z.string().email(),
-  password: z.string().min(8),
+  password: z.string().min(8).max(16),
 });
+type loginProps = {
+  setIsLoggedin: (value: boolean) => void;
+};
 
 type FormFields = z.infer<typeof schema>;
 
-export default function Login() {
+export default function Login({ setIsLoggedin }: loginProps) {
+  const navigate = useNavigate();
   const {
     setValue,
     register,
@@ -25,18 +31,32 @@ export default function Login() {
     resolver: zodResolver(schema),
   });
 
-  const { login, isPending } = useLogin();
+  const queryClient = useQueryClient();
+  const { mutate: login, isPending } = useMutation({
+    mutationFn: ({ email, password }: FormFields) =>
+      LoginAPI({ email, password }),
+    onSuccess: data => {
+      queryClient.setQueryData(['user'], data.account);
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('refreshToken', data.refreshToken);
+      setIsLoggedin(true);
+      toast.success(
+        `Hello ${data.account.name}! You have successfully logged in 😄`
+      );
+      navigate('/myaccount');
+    },
+    onError: () => {
+      toast.error('Invalid Email or Password, Please try again. 😢');
+    },
+    onSettled: () => {
+      setValue('email', '');
+      setValue('password', '');
+    },
+  });
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
-    login(data, {
-      onError: () => {
-        toast.error('Failed to login. Please try again.');
-      },
-      onSettled: () => {
-        setValue('email', '');
-        setValue('password', '');
-      },
-    });
+    login(data);
   };
 
   return (
