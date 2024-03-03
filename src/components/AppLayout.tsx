@@ -1,19 +1,17 @@
 import { Outlet } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import MyNavBar from './MyNavbar';
+import { User } from '../App';
 
 export type loggedInProps = {
-  isLoggedIn: boolean;
-  setIsLoggedIn: (value: boolean) => void;
+  user: User;
+  setUser: (value: User) => void;
 };
 
-export default function AppLayout({
-  isLoggedIn,
-  setIsLoggedIn,
-}: loggedInProps) {
+export default function AppLayout({ user, setUser }: loggedInProps) {
   return (
     <div>
-      <MyNavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <MyNavBar user={user} setUser={setUser} />
       <Container>
         <Outlet />
       </Container>

@@ -8,20 +8,31 @@ import MyAccount from './pages/MyAccount';
 import { useState } from 'react';
 import Posts from './pages/Posts';
 
+export type User = {
+  accessToken: string;
+  refreshToken: string;
+  isLoggedIn: boolean;
+  user: {
+    name: string;
+    password: string;
+    posts: [];
+    refreshTokens: string[];
+    __v: number;
+    _id: string;
+  };
+};
+
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem('isLoggedIn') === 'true'
-  );
+  const userFromLocal = JSON.parse(localStorage.getItem('user') || '{}');
+  const [user, setUser] = useState(userFromLocal);
   const router = createBrowserRouter([
     {
       path: '/',
-      element: (
-        <AppLayout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-      ),
+      element: <AppLayout user={user} setUser={setUser} />,
       children: [
         {
           path: 'login',
-          element: <Login setIsLoggedin={setIsLoggedIn} />,
+          element: <Login setUser={setUser} />,
         },
         {
           path: 'register',
