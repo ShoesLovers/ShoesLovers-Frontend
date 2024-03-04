@@ -5,13 +5,14 @@ import toast from 'react-hot-toast';
 import { Col, Container, Row, Form, Button } from 'react-bootstrap';
 import { useLogin } from '../hooks/useLogin';
 import { User } from '../App';
+import LoginWithGoogle from '../components/LoginWithGoogle';
 
 const schema = z.object({
   email: z.string().email(),
   password: z.string().min(8).max(16),
 });
 
-export type FormFields = z.infer<typeof schema>;
+export type LoginFormFields = z.infer<typeof schema>;
 
 export default function Login({ setUser }: { setUser: (user: User) => void }) {
   const {
@@ -19,7 +20,7 @@ export default function Login({ setUser }: { setUser: (user: User) => void }) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormFields>({
+  } = useForm<LoginFormFields>({
     defaultValues: {
       email: 'test@gmail.com',
     },
@@ -28,7 +29,7 @@ export default function Login({ setUser }: { setUser: (user: User) => void }) {
 
   const { login, isPending } = useLogin(setUser);
 
-  const onSubmit: SubmitHandler<FormFields> = async data => {
+  const onSubmit: SubmitHandler<LoginFormFields> = async data => {
     login(data, {
       onError: () => {
         toast.error('Invalid Email or Password, Please try again. 😢');
@@ -71,6 +72,9 @@ export default function Login({ setUser }: { setUser: (user: User) => void }) {
               </Button>
             </div>
           </Form>
+          <div className="text-center mt-3">
+            <LoginWithGoogle />
+          </div>
         </Col>
       </Row>
     </Container>

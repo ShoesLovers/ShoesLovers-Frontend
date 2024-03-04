@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
 import { Col, Container, Row, Form, Button } from 'react-bootstrap';
 import { useRegister } from '../hooks/useRegister';
+import { User } from '../App';
 
 const schema = z.object({
   email: z.string().email(),
@@ -11,26 +12,28 @@ const schema = z.object({
   password: z.string().min(8).max(16),
 });
 
-type FormFields = z.infer<typeof schema>;
+export type RegisterFormFields = z.infer<typeof schema>;
 
-export default function Register() {
+export default function Register({
+  setUser,
+}: {
+  setUser: (user: User) => void;
+}) {
   const {
     setValue,
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormFields>({
+  } = useForm<RegisterFormFields>({
     resolver: zodResolver(schema),
   });
 
-  const { register: signup, isPending } = useRegister();
+  const { register: signup, isPending } = useRegister(setUser);
 
-  const onSubmit: SubmitHandler<FormFields> = async data => {
+  const onSubmit: SubmitHandler<RegisterFormFields> = async data => {
     signup(data, {
       onError: () => {
         toast.error('User is already exist. Please try again.');
-      },
-      onSettled: () => {
         setValue('name', '');
         setValue('email', '');
         setValue('password', '');

@@ -1,3 +1,5 @@
+import { CredentialResponse } from '@react-oauth/google';
+
 export interface LoginProps {
   email: string;
   password: string;
@@ -43,4 +45,15 @@ export async function LogoutAPI() {
       Authorization: `JWT ${refreshToken}`,
     },
   });
+}
+
+export async function LoginWithGoogleAPI(credential: CredentialResponse) {
+  const response = await fetch('http://localhost:3000/auth/google', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await response.json();
+  return data;
 }

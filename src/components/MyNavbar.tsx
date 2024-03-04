@@ -1,13 +1,18 @@
 import { useMutation } from '@tanstack/react-query';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Nav } from 'react-bootstrap';
-import Navbar from 'react-bootstrap/Navbar';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { LogoutAPI } from '../api/auth';
 import toast from 'react-hot-toast';
-import { loggedInProps } from './AppLayout';
+import { User } from '../App';
 
-export default function MyNavBar({ user, setUser }: loggedInProps) {
+export default function MyNavBar({
+  user,
+  setUser,
+}: {
+  user: User;
+  setUser: (user: User) => void;
+}) {
   const isLoggedIn = user.isLoggedIn;
   const { mutate: logout } = useMutation({
     mutationFn: LogoutAPI,
