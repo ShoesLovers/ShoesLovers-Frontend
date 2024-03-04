@@ -45,7 +45,7 @@ function App() {
         },
         {
           path: 'register',
-          element: <Register />,
+          element: <Register setUser={setUser} />,
         },
         {
           path: 'myaccount',
