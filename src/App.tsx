@@ -12,10 +12,8 @@ export type dbAccount = {
   name: string;
   email: string;
   _id: string;
-  posts: string[];
-  refreshTokens: string[];
+  image: string;
   password: string;
-  __v: number;
 };
 
 export interface User {

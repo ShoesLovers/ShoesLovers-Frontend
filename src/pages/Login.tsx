@@ -73,7 +73,7 @@ export default function Login({ setUser }: { setUser: (user: User) => void }) {
             </div>
           </Form>
           <div className="text-center mt-3">
-            <LoginWithGoogle />
+            <LoginWithGoogle setUser={setUser} />
           </div>
         </Col>
       </Row>
