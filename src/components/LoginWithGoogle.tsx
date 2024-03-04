@@ -3,6 +3,7 @@ import { LoginWithGoogleAPI } from '../api/auth';
 import { User } from '../App';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { saveToLocal } from '../helpers/saveToLocal';
 
 export default function LoginWithGoogle({
   setUser,
@@ -13,18 +14,10 @@ export default function LoginWithGoogle({
   const onSuccess = async (response: CredentialResponse) => {
     try {
       const res = await LoginWithGoogleAPI(response);
-      const account = res.account;
-      console.log(account);
-      const user: User = {
-        accessToken: res.accessToken,
-        refreshToken: res.refreshToken,
-        isLoggedIn: true,
-        user: account,
-      };
-      localStorage.setItem('user', JSON.stringify(user));
+      const user = saveToLocal(res);
       setUser(user);
       toast.success(
-        `Hello ${account.name}! You have successfully logged in 😄`
+        `Hello ${res.account.name}! You have successfully logged in 😄`
       );
       navigate('/myaccount');
     } catch (err) {
