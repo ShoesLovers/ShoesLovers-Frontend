@@ -1,4 +1,5 @@
 import { CredentialResponse } from '@react-oauth/google';
+import apiClient from './apiClient';
 
 export interface LoginProps {
   email: string;
@@ -9,6 +10,18 @@ export interface RegisterProps {
   email: string;
   password: string;
   name: string;
+}
+
+export interface IUser {
+  account: {
+    email: string;
+    name: string;
+    password: string;
+    image: string;
+    _id: string;
+  };
+  accessToken: string;
+  refreshToken: string;
 }
 
 export async function LoginAPI({ email, password }: LoginProps) {
@@ -48,12 +61,16 @@ export async function LogoutAPI() {
 }
 
 export async function LoginWithGoogleAPI(credential: CredentialResponse) {
-  const response = await fetch('http://localhost:3000/auth/google', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+  return new Promise<IUser>((resolve, reject) => {
+    console.log('googleSignin ...');
+    apiClient
+      .post('/auth/google', credential)
+      .then(response => {
+        resolve(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+        reject(error);
+      });
   });
-  const data = await response.json();
-  return data;
 }
