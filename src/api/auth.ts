@@ -12,16 +12,25 @@ export interface RegisterProps {
   name: string;
 }
 
+export type dbAccount = {
+  name: string;
+  email: string;
+  _id: string;
+  image: string;
+  password: string;
+};
+
 export interface IUser {
-  account: {
-    email: string;
-    name: string;
-    password: string;
-    image: string;
-    _id: string;
-  };
+  account: dbAccount;
   accessToken: string;
   refreshToken: string;
+}
+
+export interface User {
+  accessToken: string;
+  refreshToken: string;
+  isLoggedIn?: boolean;
+  user: dbAccount;
 }
 
 export async function LoginAPI({ email, password }: LoginProps) {
