@@ -7,21 +7,7 @@ import Register from './pages/Register';
 import MyAccount from './pages/MyAccount';
 import { useState } from 'react';
 import Posts from './pages/Posts';
-
-export type dbAccount = {
-  name: string;
-  email: string;
-  _id: string;
-  image: string;
-  password: string;
-};
-
-export interface User {
-  accessToken: string;
-  refreshToken: string;
-  isLoggedIn: boolean;
-  user: dbAccount;
-}
+import { User } from './api/auth';
 
 function App() {
   const userFromLocal: User = JSON.parse(
@@ -47,7 +33,7 @@ function App() {
         },
         {
           path: 'myaccount',
-          element: <MyAccount />,
+          element: <MyAccount user={user} setUser={setUser} />,
         },
         {
           path: 'posts',

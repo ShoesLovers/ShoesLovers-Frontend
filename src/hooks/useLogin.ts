@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { LoginAPI } from '../api/auth';
 import toast from 'react-hot-toast';
 import { LoginFormFields } from '../pages/Login';
-import { User } from '../App';
+import { User } from '../api/auth';
 import { saveToLocal } from '../helpers/saveToLocal';
 
 export function useLogin(setUser: (user: User) => void) {
