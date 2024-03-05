@@ -1,5 +1,6 @@
-import { CredentialResponse } from '@react-oauth/google';
-import apiClient from './apiClient';
+import { CredentialResponse } from "@react-oauth/google";
+import apiClient from "./apiClient";
+import { UpdateFormValues } from "../components/UpdateUserForm";
 
 export interface LoginProps {
   email: string;
@@ -34,10 +35,10 @@ export interface User {
 }
 
 export async function LoginAPI({ email, password }: LoginProps) {
-  const response = await fetch('http://localhost:3000/auth/login', {
-    method: 'POST',
+  const response = await fetch("http://localhost:3000/auth/login", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
   });
@@ -46,16 +47,16 @@ export async function LoginAPI({ email, password }: LoginProps) {
 }
 
 export async function RegisterAPI({ email, password, name }: RegisterProps) {
-  const response = await fetch('http://localhost:3000/auth/register', {
-    method: 'POST',
+  const response = await fetch("http://localhost:3000/auth/register", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       email,
       password,
       name,
-      image: 'src/assets/images',
+      image: "src/assets/images",
     }),
   });
   const data = await response.json();
@@ -63,12 +64,12 @@ export async function RegisterAPI({ email, password, name }: RegisterProps) {
 }
 
 export async function LogoutAPI() {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
   const refreshToken = user.refreshToken;
-  await fetch('http://localhost:3000/auth/logout', {
-    method: 'POST',
+  await fetch("http://localhost:3000/auth/logout", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `JWT ${refreshToken}`,
     },
   });
@@ -76,13 +77,37 @@ export async function LogoutAPI() {
 
 export async function LoginWithGoogleAPI(credential: CredentialResponse) {
   return new Promise<IUser>((resolve, reject) => {
-    console.log('googleSignin ...');
+    console.log("googleSignin ...");
     apiClient
-      .post('/auth/google', credential)
-      .then(response => {
+      .post("/auth/google", credential)
+      .then((response) => {
         resolve(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+}
+
+export async function UpdateUserAPI(
+  id: string,
+  accessToken: string,
+  updatedUser: UpdateFormValues
+) {
+  return new Promise<dbAccount>((resolve, reject) => {
+    console.log("updateUser ...");
+    apiClient
+      .put(`/account/${id}`, updatedUser, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `JWT ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
         console.log(error);
         reject(error);
       });
