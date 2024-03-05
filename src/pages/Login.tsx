@@ -4,8 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
 import { Col, Container, Row, Form, Button } from 'react-bootstrap';
 import { useLogin } from '../hooks/useLogin';
-import { User } from '../App';
 import LoginWithGoogle from '../components/LoginWithGoogle';
+import { User } from '../api/auth';
 
 const schema = z.object({
   email: z.string().email(),

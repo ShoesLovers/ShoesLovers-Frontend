@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
 import { Col, Container, Row, Form, Button } from 'react-bootstrap';
 import { useRegister } from '../hooks/useRegister';
-import { User } from '../App';
+import { User } from '../api/auth';
 
 const schema = z.object({
   email: z.string().email(),

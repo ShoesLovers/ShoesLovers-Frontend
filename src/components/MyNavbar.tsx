@@ -2,9 +2,10 @@ import { useMutation } from '@tanstack/react-query';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import { LogoutAPI } from '../api/auth';
+import { LogoutAPI, User } from '../api/auth';
 import toast from 'react-hot-toast';
-import { User } from '../App';
+import ImageShape from './ImageShape';
+import { useState } from 'react';
 
 export default function MyNavBar({
   user,
@@ -13,6 +14,8 @@ export default function MyNavBar({
   user: User;
   setUser: (user: User) => void;
 }) {
+  const [showMyImage, setShowMyImage] = useState(true);
+
   const isLoggedIn = user.isLoggedIn;
   const { mutate: logout } = useMutation({
     mutationFn: LogoutAPI,
@@ -22,10 +25,19 @@ export default function MyNavBar({
       toast.success('You have successfully logged out 😄');
     },
   });
+
+  const toggleShowMyImage = () => {
+    setShowMyImage(!showMyImage);
+  };
+
   return (
-    <Navbar expand="md" className="bg-body-tertiary">
+    <Navbar
+      expand="md"
+      className="bg-body-tertiary sticky-top"
+      onToggle={toggleShowMyImage}
+    >
       <Container>
-        <NavLink to="/login" className="nav-link">
+        <NavLink to="/" className="nav-link">
           ShoesLover 👟
         </NavLink>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -59,6 +71,14 @@ export default function MyNavBar({
               </>
             )}
           </Nav>
+          {showMyImage && (
+            <>
+              <div className="d-flex align-items-center">
+                <ImageShape />
+              </div>
+              <div>{user.user.name}</div>
+            </>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>

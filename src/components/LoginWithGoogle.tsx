@@ -1,6 +1,5 @@
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
-import { LoginWithGoogleAPI } from '../api/auth';
-import { User } from '../App';
+import { LoginWithGoogleAPI, User } from '../api/auth';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { saveToLocal } from '../helpers/saveToLocal';

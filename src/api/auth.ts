@@ -51,7 +51,12 @@ export async function RegisterAPI({ email, password, name }: RegisterProps) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password, name }),
+    body: JSON.stringify({
+      email,
+      password,
+      name,
+      image: 'src/assets/images',
+    }),
   });
   const data = await response.json();
   return data;
