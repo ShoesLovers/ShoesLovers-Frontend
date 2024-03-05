@@ -1,11 +1,11 @@
-import { useMutation } from '@tanstack/react-query';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Nav, Navbar } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
-import { LogoutAPI, User } from '../api/auth';
-import toast from 'react-hot-toast';
-import ImageShape from './ImageShape';
-import { useState } from 'react';
+import { useMutation } from "@tanstack/react-query";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Container, Nav, Navbar } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
+import { LogoutAPI, User } from "../api/auth";
+import toast from "react-hot-toast";
+import ImageShape from "./ImageShape";
+import { useState } from "react";
 
 export default function MyNavBar({
   user,
@@ -21,8 +21,8 @@ export default function MyNavBar({
     mutationFn: LogoutAPI,
     onSuccess: () => {
       setUser({ ...user, isLoggedIn: false });
-      localStorage.removeItem('user');
-      toast.success('You have successfully logged out 😄');
+      localStorage.removeItem("user");
+      toast.success("You have successfully logged out 😄");
     },
   });
 
@@ -71,12 +71,12 @@ export default function MyNavBar({
               </>
             )}
           </Nav>
-          {showMyImage && (
+          {showMyImage && isLoggedIn && (
             <>
+              <div>{user.user?.name}</div>
               <div className="d-flex align-items-center">
                 <ImageShape />
               </div>
-              <div>{user.user.name}</div>
             </>
           )}
         </Navbar.Collapse>

@@ -1,42 +1,42 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
-import Login from './pages/Login';
-import NotFoundPage from './pages/NotFoundPage';
-import AppLayout from './components/AppLayout';
-import Register from './pages/Register';
-import MyAccount from './pages/MyAccount';
-import { useState } from 'react';
-import Posts from './pages/Posts';
-import { User } from './api/auth';
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import Login from "./pages/Login";
+import NotFoundPage from "./pages/NotFoundPage";
+import AppLayout from "./components/AppLayout";
+import Register from "./pages/Register";
+import MyAccount from "./pages/MyAccount";
+import { useState } from "react";
+import Posts from "./pages/Posts";
+import { User } from "./api/auth";
 
 function App() {
   const userFromLocal: User = JSON.parse(
-    localStorage.getItem('user') || '{}'
+    localStorage.getItem("user") || "{}"
   ) || {
-    accessToken: '',
-    refreshToken: '',
+    accessToken: "",
+    refreshToken: "",
     isLoggedIn: false,
   };
   const [user, setUser] = useState<User>(userFromLocal);
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
       element: <AppLayout user={user} setUser={setUser} />,
       children: [
         {
-          path: 'login',
+          path: "login",
           element: <Login setUser={setUser} />,
         },
         {
-          path: 'register',
+          path: "register",
           element: <Register setUser={setUser} />,
         },
         {
-          path: 'myaccount',
+          path: "myaccount",
           element: <MyAccount user={user} setUser={setUser} />,
         },
         {
-          path: 'posts',
+          path: "posts",
           element: <Posts />,
         },
       ],
@@ -49,28 +49,28 @@ function App() {
       <Toaster
         position="top-center"
         gutter={12}
-        containerStyle={{ margin: '8px' }}
+        containerStyle={{ margin: "8px" }}
         toastOptions={{
           success: {
             duration: 3000,
             style: {
-              background: 'green',
-              color: 'white',
+              background: "green",
+              color: "white",
             },
           },
           error: {
             duration: 5000,
             style: {
-              background: 'red',
-              color: 'white',
+              background: "red",
+              color: "white",
             },
           },
           style: {
-            fontFamily: 'Arial',
-            fontSize: '16px',
-            maxWidth: '500px',
-            padding: '16px 24px',
-            color: 'white',
+            fontFamily: "Arial",
+            fontSize: "16px",
+            maxWidth: "500px",
+            padding: "16px 24px",
+            color: "white",
           },
         }}
       />

@@ -1,7 +1,7 @@
-import { Outlet } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
-import MyNavBar from './MyNavbar';
-import { User } from '../App';
+import { Outlet } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import MyNavBar from "./MyNavbar";
+import { User } from "../api/auth";
 
 export default function AppLayout({
   user,
