@@ -1,23 +1,25 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import toast from 'react-hot-toast';
-import { Col, Container, Row, Form, Button } from 'react-bootstrap';
-import { useRegister } from '../hooks/useRegister';
-import { User } from '../api/auth';
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import toast from 'react-hot-toast'
+import { Col, Container, Row, Form, Button } from 'react-bootstrap'
+import { useRegister } from '../hooks/useRegister'
+import { User } from '../helpers/types'
 
 const schema = z.object({
   email: z.string().email(),
   name: z.string().min(3).max(16),
   password: z.string().min(8).max(16),
-});
+})
 
-export type RegisterFormFields = z.infer<typeof schema>;
+export type RegisterFormFields = z.infer<typeof schema>
 
 export default function Register({
   setUser,
+  setIsLoggedIn,
 }: {
-  setUser: (user: User) => void;
+  setUser: (user: User) => void
+  setIsLoggedIn: (isLoggedIn: boolean) => void
 }) {
   const {
     setValue,
@@ -26,20 +28,20 @@ export default function Register({
     formState: { errors },
   } = useForm<RegisterFormFields>({
     resolver: zodResolver(schema),
-  });
+  })
 
-  const { register: signup, isPending } = useRegister(setUser);
+  const { register: signup, isPending } = useRegister(setUser, setIsLoggedIn)
 
   const onSubmit: SubmitHandler<RegisterFormFields> = async data => {
     signup(data, {
       onError: () => {
-        toast.error('User is already exist. Please try again.');
-        setValue('name', '');
-        setValue('email', '');
-        setValue('password', '');
+        toast.error('User is already exist. Please try again.')
+        setValue('name', '')
+        setValue('email', '')
+        setValue('password', '')
       },
-    });
-  };
+    })
+  }
 
   return (
     <Container>
@@ -87,5 +89,5 @@ export default function Register({
         </Col>
       </Row>
     </Container>
-  );
+  )
 }

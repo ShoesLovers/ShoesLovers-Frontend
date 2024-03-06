@@ -1,24 +1,32 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
-import { RegisterAPI, User } from '../api/auth';
-import toast from 'react-hot-toast';
-import { RegisterFormFields } from '../pages/Register';
-import { saveToLocal } from '../helpers/saveToLocal';
+import { useMutation } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
+import { RegisterAPI } from '../api/auth'
+import { User } from '../helpers/types'
+import toast from 'react-hot-toast'
+import { RegisterFormFields } from '../pages/Register'
+import { saveToLocal } from '../helpers/saveToLocal'
 
-export function useRegister(setUser: (user: User) => void) {
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
+export function useRegister(
+  setUser: (user: User) => void,
+  setIsLoggedIn: (isLoggedIn: boolean) => void
+) {
+  const navigate = useNavigate()
   const { mutate: register, isPending } = useMutation({
     mutationFn: (credentials: RegisterFormFields) => RegisterAPI(credentials),
     onSuccess: data => {
-      queryClient.setQueryData(['user'], data.account);
-      const user = saveToLocal(data);
-      setUser(user);
+      const user = data.account
+      const { accessToken, refreshToken } = data
+
+      setUser(user)
+      setIsLoggedIn(true)
+
+      saveToLocal(user, accessToken, refreshToken)
+
       toast.success(
-        `Hello ${data.account.name}! You have successfully Created a new Account 😄`
-      );
-      navigate('/myaccount');
+        `Hello ${user.name}! You have successfully Created a new Account 😄`
+      )
+      navigate('/myaccount')
     },
-  });
-  return { register, isPending };
+  })
+  return { register, isPending }
 }

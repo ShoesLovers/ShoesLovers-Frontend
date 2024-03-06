@@ -1,21 +1,25 @@
-import { Outlet } from "react-router-dom";
-import { Container } from "react-bootstrap";
-import MyNavBar from "./MyNavbar";
-import { User } from "../api/auth";
+import { Outlet } from 'react-router-dom'
+import { Container } from 'react-bootstrap'
+import MyNavBar from './MyNavbar'
+import { userProps } from '../helpers/types'
 
 export default function AppLayout({
   user,
   setUser,
-}: {
-  user: User;
-  setUser: (user: User) => void;
-}) {
+  isLoggedIn,
+  setIsLoggedIn,
+}: userProps) {
   return (
     <div>
-      <MyNavBar user={user} setUser={setUser} />
+      <MyNavBar
+        user={user}
+        setUser={setUser}
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+      />
       <Container>
         <Outlet />
       </Container>
     </div>
-  );
+  )
 }
