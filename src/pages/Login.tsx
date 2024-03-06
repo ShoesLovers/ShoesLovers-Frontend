@@ -1,20 +1,26 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import toast from 'react-hot-toast';
-import { Col, Container, Row, Form, Button } from 'react-bootstrap';
-import { useLogin } from '../hooks/useLogin';
-import LoginWithGoogle from '../components/LoginWithGoogle';
-import { User } from '../api/auth';
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import toast from 'react-hot-toast'
+import { Col, Container, Row, Form, Button } from 'react-bootstrap'
+import { useLogin } from '../hooks/useLogin'
+import LoginWithGoogle from '../components/LoginWithGoogle'
+import { User } from '../helpers/types'
 
 const schema = z.object({
   email: z.string().email(),
   password: z.string().min(8).max(16),
-});
+})
 
-export type LoginFormFields = z.infer<typeof schema>;
+export type LoginFormFields = z.infer<typeof schema>
 
-export default function Login({ setUser }: { setUser: (user: User) => void }) {
+export default function Login({
+  setUser,
+  setIsLoggedIn,
+}: {
+  setUser: (user: User) => void
+  setIsLoggedIn: (isLoggedIn: boolean) => void
+}) {
   const {
     setValue,
     register,
@@ -25,19 +31,19 @@ export default function Login({ setUser }: { setUser: (user: User) => void }) {
       email: 'test@gmail.com',
     },
     resolver: zodResolver(schema),
-  });
+  })
 
-  const { login, isPending } = useLogin(setUser);
+  const { login, isPending } = useLogin(setUser, setIsLoggedIn)
 
   const onSubmit: SubmitHandler<LoginFormFields> = async data => {
     login(data, {
       onError: () => {
-        toast.error('Invalid Email or Password, Please try again. 😢');
-        setValue('password', '');
-        setValue('email', '');
+        toast.error('Invalid Email or Password, Please try again. 😢')
+        setValue('password', '')
+        setValue('email', '')
       },
-    });
-  };
+    })
+  }
 
   return (
     <Container>
@@ -73,10 +79,10 @@ export default function Login({ setUser }: { setUser: (user: User) => void }) {
             </div>
           </Form>
           <div className="text-center mt-3">
-            <LoginWithGoogle setUser={setUser} />
+            <LoginWithGoogle setUser={setUser} setIsLoggedIn={setIsLoggedIn} />
           </div>
         </Col>
       </Row>
     </Container>
-  );
+  )
 }

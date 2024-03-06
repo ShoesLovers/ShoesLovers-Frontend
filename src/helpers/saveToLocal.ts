@@ -1,14 +1,17 @@
-import { User, dbAccount } from '../App';
-import { IUser } from '../api/auth';
+import { User } from './types'
 
-export function saveToLocal(data: IUser) {
-  const account: dbAccount = data.account;
-  const user: User = {
-    accessToken: data.accessToken,
-    refreshToken: data.refreshToken,
-    isLoggedIn: true,
-    user: account,
-  };
-  localStorage.setItem('user', JSON.stringify(user));
-  return user;
+export function saveToLocal(
+  user: User,
+  accessToken: string,
+  refreshToken: string
+) {
+  localStorage.setItem('user', JSON.stringify(user))
+  localStorage.setItem('accessToken', accessToken)
+  localStorage.setItem('refreshToken', refreshToken)
+}
+
+export function removeFromLocal(...keys: string[]) {
+  keys.forEach(key => {
+    localStorage.removeItem(key)
+  })
 }

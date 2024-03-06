@@ -1,34 +1,37 @@
-import { useMutation } from "@tanstack/react-query";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Nav, Navbar } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
-import { LogoutAPI, User } from "../api/auth";
-import toast from "react-hot-toast";
-import ImageShape from "./ImageShape";
-import { useState } from "react";
+import { useMutation } from '@tanstack/react-query'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Container, Nav, Navbar } from 'react-bootstrap'
+import { NavLink } from 'react-router-dom'
+import { LogoutAPI } from '../api/auth'
+import { User, userProps } from '../helpers/types'
+import toast from 'react-hot-toast'
+import ImageShape from './ImageShape'
+import { useState } from 'react'
+import { removeFromLocal } from '../helpers/saveToLocal'
 
 export default function MyNavBar({
   user,
   setUser,
-}: {
-  user: User;
-  setUser: (user: User) => void;
-}) {
-  const [showMyImage, setShowMyImage] = useState(true);
+  isLoggedIn,
+  setIsLoggedIn,
+}: userProps) {
+  const [showMyImage, setShowMyImage] = useState(true)
 
-  const isLoggedIn = user.isLoggedIn;
   const { mutate: logout } = useMutation({
     mutationFn: LogoutAPI,
     onSuccess: () => {
-      setUser({ ...user, isLoggedIn: false });
-      localStorage.removeItem("user");
-      toast.success("You have successfully logged out 😄");
+      setIsLoggedIn(false)
+      setUser({} as User)
+
+      removeFromLocal('user', 'accessToken', 'refreshToken')
+
+      toast.success('You have successfully logged out 😄')
     },
-  });
+  })
 
   const toggleShowMyImage = () => {
-    setShowMyImage(!showMyImage);
-  };
+    setShowMyImage(!showMyImage)
+  }
 
   return (
     <Navbar
@@ -73,7 +76,7 @@ export default function MyNavBar({
           </Nav>
           {showMyImage && isLoggedIn && (
             <>
-              <div>{user.user?.name}</div>
+              <div>{user?.name}</div>
               <div className="d-flex align-items-center">
                 <ImageShape />
               </div>
@@ -82,5 +85,5 @@ export default function MyNavBar({
         </Navbar.Collapse>
       </Container>
     </Navbar>
-  );
+  )
 }
