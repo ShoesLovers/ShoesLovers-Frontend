@@ -1,29 +1,29 @@
-import { Card, Button } from "react-bootstrap";
-import { PostType } from "../helpers/types";
-import { deletePostAPI } from "../api/auth";
-import { useTokens } from "../hooks/useTokens";
+import { Card, Button } from 'react-bootstrap'
+import { PostType } from '../helpers/types'
+import { deletePostAPI } from '../api/auth'
+import { useTokens } from '../hooks/useTokens'
 
 export default function Post({
   post,
   setPosts,
   posts,
 }: {
-  posts: PostType[];
-  post: PostType;
-  setPosts: (posts: PostType[]) => void;
+  posts: PostType[]
+  post: PostType
+  setPosts: (posts: PostType[]) => void
 }) {
-  const { accessToken } = useTokens();
+  const { accessToken } = useTokens()
   const handleDeletePost = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    e.preventDefault();
-    await deletePostAPI(post._id, accessToken);
-    setPosts([...posts.filter((p) => p._id !== post._id)]);
-  };
+    e.preventDefault()
+    await deletePostAPI(post._id, accessToken)
+    setPosts([...posts.filter(p => p._id !== post._id)])
+  }
 
   return (
     <center className="mt-3 mb-3">
-      <Card style={{ width: "32rem" }}>
+      <Card style={{ width: '32rem' }}>
         {/* <Card.Img
           variant="top"
           src="src\assets\images\Labrador_Retriever_portrait.jpg"
@@ -47,5 +47,5 @@ export default function Post({
         </Card.Body>
       </Card>
     </center>
-  );
+  )
 }
