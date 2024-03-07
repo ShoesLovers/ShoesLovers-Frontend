@@ -1,4 +1,4 @@
-import { SubmitHandler, set, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import toast from 'react-hot-toast'
@@ -46,13 +46,16 @@ export default function Register({
   const [image, setImage] = useState<File>()
 
   const onSubmit: SubmitHandler<RegisterFormFields> = async data => {
-    console.log(data)
-    console.log(image)
-
-    if (image) {
-      const url = await uploadPhoto(image)
-      setValue('image', url)
+    if (!image) {
+      // Create a File object from the default avatar image
+      const defaultImageFile = await fetch(avatar)
+        .then(res => res.blob())
+        .then(blob => new File([blob], 'default.jpg'))
+      setImage(defaultImageFile)
     }
+
+    const url = await uploadPhoto(image!)
+    setValue('image', url)
 
     console.log(getValues('image'))
 
