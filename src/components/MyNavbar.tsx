@@ -78,7 +78,7 @@ export default function MyNavBar({
             <>
               <div>{user?.name}</div>
               <div className="d-flex align-items-center">
-                <ImageShape />
+                <ImageShape user={user} />
               </div>
             </>
           )}

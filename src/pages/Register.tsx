@@ -1,4 +1,4 @@
-import { SubmitHandler, set, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import toast from 'react-hot-toast'
@@ -7,9 +7,10 @@ import { useRegister } from '../hooks/useRegister'
 import { User } from '../helpers/types'
 import avatar from '../assets/images/default.jpg'
 import { useState } from 'react'
+import { uploadPhoto } from '../api/auth'
 
 const schema = z.object({
-  image: z.string().url(),
+  image: z.string().url().optional(),
   email: z.string().email(),
   name: z.string().min(3).max(16),
   password: z.string().min(8).max(16),
@@ -32,12 +33,26 @@ export default function Register({
     formState: { errors },
   } = useForm<RegisterFormFields>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      name: 'omer',
+      email: 'test@gmail.com',
+      password: '12345678',
+      image: '',
+    },
   })
 
   const { register: signup, isPending } = useRegister(setUser, setIsLoggedIn)
-  const [image, setImage] = useState<string>()
+  const [image, setImage] = useState<File>()
 
   const onSubmit: SubmitHandler<RegisterFormFields> = async data => {
+    console.log(data)
+    console.log(image)
+    if (image) {
+      const url = await uploadPhoto(image)
+      setValue('image', url)
+    }
+    console.log(getValues('image'))
+
     signup(data, {
       onError: () => {
         toast.error('User is already exist. Please try again.')
@@ -51,11 +66,10 @@ export default function Register({
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('Image selected...')
     if (e.target?.files && e.target.files.length > 0) {
-      setImage(URL.createObjectURL(e.target.files[0]))
-      setValue('image', URL.createObjectURL(e.target.files[0]), {
-        shouldValidate: true,
-      })
+      setImage(e.target.files[0])
+      setValue('image', URL.createObjectURL(e.target.files[0]))
     }
+    console.log(getValues())
     console.log(getValues('image'))
   }
 
@@ -69,7 +83,7 @@ export default function Register({
                 <div className="d -flex justify-content-center position-relative">
                   <div style={{ height: '230px', width: '230px' }}>
                     <Image
-                      src={image ? image : avatar}
+                      src={image ? URL.createObjectURL(image) : avatar}
                       roundedCircle
                       className="img-fluid"
                     />
