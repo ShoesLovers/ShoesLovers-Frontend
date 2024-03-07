@@ -6,7 +6,6 @@ import avatar from '../assets/images/default.jpg'
 import { User } from '../helpers/types'
 
 export default function ImageShape({ user }: { user: User }) {
-  console.log(user)
   return (
     <Container>
       <Row>

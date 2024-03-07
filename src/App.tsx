@@ -30,7 +30,13 @@ function App() {
       children: [
         {
           path: 'login',
-          element: <Login setUser={setUser} setIsLoggedIn={setIsLoggedIn} />,
+          element: (
+            <Login
+              setUser={setUser}
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          ),
         },
         {
           path: 'register',

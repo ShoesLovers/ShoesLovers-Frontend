@@ -1,4 +1,4 @@
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, set, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import toast from 'react-hot-toast'
@@ -10,7 +10,7 @@ import { useState } from 'react'
 import { uploadPhoto } from '../api/auth'
 
 const schema = z.object({
-  image: z.string().url().optional(),
+  image: z.string().optional(),
   email: z.string().email(),
   name: z.string().min(3).max(16),
   password: z.string().min(8).max(16),
@@ -41,16 +41,19 @@ export default function Register({
     },
   })
 
+  console.log(errors)
   const { register: signup, isPending } = useRegister(setUser, setIsLoggedIn)
   const [image, setImage] = useState<File>()
 
   const onSubmit: SubmitHandler<RegisterFormFields> = async data => {
     console.log(data)
     console.log(image)
+
     if (image) {
       const url = await uploadPhoto(image)
       setValue('image', url)
     }
+
     console.log(getValues('image'))
 
     signup(data, {
