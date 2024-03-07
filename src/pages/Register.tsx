@@ -1,12 +1,15 @@
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, set, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import toast from 'react-hot-toast'
-import { Col, Container, Row, Form, Button } from 'react-bootstrap'
+import { Col, Container, Row, Form, Button, Image } from 'react-bootstrap'
 import { useRegister } from '../hooks/useRegister'
 import { User } from '../helpers/types'
+import avatar from '../assets/images/default.jpg'
+import { useState } from 'react'
 
 const schema = z.object({
+  image: z.string().url(),
   email: z.string().email(),
   name: z.string().min(3).max(16),
   password: z.string().min(8).max(16),
@@ -22,6 +25,7 @@ export default function Register({
   setIsLoggedIn: (isLoggedIn: boolean) => void
 }) {
   const {
+    getValues,
     setValue,
     register,
     handleSubmit,
@@ -31,6 +35,7 @@ export default function Register({
   })
 
   const { register: signup, isPending } = useRegister(setUser, setIsLoggedIn)
+  const [image, setImage] = useState<string>()
 
   const onSubmit: SubmitHandler<RegisterFormFields> = async data => {
     signup(data, {
@@ -43,11 +48,39 @@ export default function Register({
     })
   }
 
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('Image selected...')
+    if (e.target?.files && e.target.files.length > 0) {
+      setImage(URL.createObjectURL(e.target.files[0]))
+      setValue('image', URL.createObjectURL(e.target.files[0]), {
+        shouldValidate: true,
+      })
+    }
+    console.log(getValues('image'))
+  }
+
   return (
-    <Container>
-      <Row className="justify-content-center mt-3">
+    <Container className="justify-content-center mt-3">
+      <Row className="d-flex justify-content-center position-relative mt-3">
         <Col sm={8}>
           <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form.Group className="mb-3" controlId="formFile">
+              <center>
+                <div className="d -flex justify-content-center position-relative">
+                  <div style={{ height: '230px', width: '230px' }}>
+                    <Image
+                      src={image ? image : avatar}
+                      roundedCircle
+                      className="img-fluid"
+                    />
+                  </div>
+                </div>
+              </center>
+
+              <Form.Label>Profile Image</Form.Label>
+              <Form.Control type="file" onChange={handleImage} />
+            </Form.Group>
+
             <Form.Group className="mb-3" controlId="formName">
               <Form.Label>Full name</Form.Label>
               <Form.Control
