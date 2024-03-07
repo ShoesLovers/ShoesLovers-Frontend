@@ -9,6 +9,12 @@ import ImageShape from './ImageShape'
 import { useState } from 'react'
 import { removeFromLocal } from '../helpers/saveToLocal'
 
+import { CiLogin } from 'react-icons/ci'
+import { CiLogout } from 'react-icons/ci'
+import { MdOutlineAppRegistration } from 'react-icons/md'
+import { IoHomeOutline } from 'react-icons/io5'
+import { MdManageAccounts } from 'react-icons/md'
+import { GiConverseShoe } from 'react-icons/gi'
 export default function MyNavBar({
   user,
   setUser,
@@ -40,43 +46,100 @@ export default function MyNavBar({
       onToggle={toggleShowMyImage}
     >
       <Container>
-        <NavLink to="/" className="nav-link">
-          ShoesLover 👟
+        <NavLink
+          to="/"
+          className="nav-link"
+          style={{
+            marginRight: '2.5rem',
+          }}
+        >
+          <IoHomeOutline size="1.7em" />
         </NavLink>
+
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
+          <Nav className="me-auto mr-3">
             {!isLoggedIn ? (
               <>
-                <NavLink to="/login" className="nav-link">
-                  Login
+                <NavLink
+                  to="/login"
+                  className="nav-link"
+                  style={{
+                    marginRight: '0.2rem',
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: 'Arial, sans-serif',
+                    }}
+                  >
+                    Login
+                  </span>
+                  {'  '}
+                  <CiLogin size="1.5em" />
                 </NavLink>
 
-                <NavLink to="/register" className="nav-link">
-                  Register
+                <NavLink
+                  to="/register"
+                  className="nav-link"
+                  style={{
+                    marginRight: '0.2rem',
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: 'Arial, sans-serif',
+                    }}
+                  >
+                    Register
+                  </span>
+                  {'  '}
+                  <MdOutlineAppRegistration size="1.5em" />
                 </NavLink>
               </>
             ) : (
               <>
-                <NavLink to="/myaccount" className="nav-link">
-                  My Account
-                </NavLink>
-                <NavLink to="/posts" className="nav-link">
-                  Posts
+                <NavLink
+                  to="/myaccount"
+                  className="nav-link"
+                  style={{
+                    marginRight: '0.2rem',
+                  }}
+                >
+                  <MdManageAccounts size="1.7em" />
                 </NavLink>
                 <NavLink
-                  to="/login"
+                  to="/posts"
                   className="nav-link"
+                  style={{
+                    marginRight: '0.2rem',
+                  }}
+                >
+                  <GiConverseShoe size="1.5em" />
+                </NavLink>
+                <NavLink
+                  to="/"
+                  className="nav-link"
+                  style={{
+                    marginRight: '0.2rem',
+                  }}
                   onClick={() => logout()}
                 >
-                  Logout
+                  <CiLogout size="1.5em" />
                 </NavLink>
               </>
             )}
           </Nav>
           {showMyImage && isLoggedIn && (
             <>
-              <div>{user?.name}</div>
+              <span
+                style={{
+                  color: '#35374B',
+                  fontFamily: 'Arial, sans-serif',
+                }}
+              >
+                {user?.name}
+              </span>
               <div className="d-flex align-items-center">
                 <ImageShape user={user} />
               </div>
