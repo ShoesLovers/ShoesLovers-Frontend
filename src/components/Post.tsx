@@ -2,8 +2,7 @@ import { Card, Button } from "react-bootstrap";
 import { PostType } from "../helpers/types";
 import { deletePostAPI } from "../api/auth";
 import { useTokens } from "../hooks/useTokens";
-import { Dropdown } from "react-bootstrap";
-
+import Comments from "./Comments";
 export default function Post({
   post,
   setPosts,
@@ -44,13 +43,8 @@ export default function Post({
           <Card.Body>
             <Button variant="primary">Add Comment</Button>
           </Card.Body>
-
+          <Comments />
           {/* <Button variant="outline-info">Comments</Button> */}
-          <Dropdown style={{}}>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Dropdown Button
-            </Dropdown.Toggle>
-          </Dropdown>
         </Card.Body>
       </Card>
     </center>
