@@ -1,4 +1,4 @@
-import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap'
+import { Col, Container, Form, Image, Row } from 'react-bootstrap'
 import { UpdateUserAPI, uploadPhoto } from '../api/auth'
 import { User } from '../helpers/types'
 import { z } from 'zod'
