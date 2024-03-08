@@ -56,10 +56,9 @@ export default function Register({
 
     const url = await uploadPhoto(image!)
     setValue('image', url)
+    const newData = { ...data, image: url }
 
-    console.log(getValues('image'))
-
-    signup(data, {
+    signup(newData, {
       onError: () => {
         toast.error('User is already exist. Please try again.')
         setValue('name', '')
