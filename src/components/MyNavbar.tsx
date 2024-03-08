@@ -14,7 +14,7 @@ import { CiLogout } from 'react-icons/ci'
 import { MdOutlineAppRegistration } from 'react-icons/md'
 import { IoHomeOutline } from 'react-icons/io5'
 import { MdManageAccounts } from 'react-icons/md'
-import { GiConverseShoe } from 'react-icons/gi'
+import { LiaCommentSolid } from 'react-icons/lia'
 export default function MyNavBar({
   user,
   setUser,
@@ -106,7 +106,7 @@ export default function MyNavBar({
                     marginRight: '0.2rem',
                   }}
                 >
-                  <MdManageAccounts size="1.7em" />
+                  <MdManageAccounts size="1.6em" />
                 </NavLink>
                 <NavLink
                   to="/posts"
@@ -115,7 +115,7 @@ export default function MyNavBar({
                     marginRight: '0.2rem',
                   }}
                 >
-                  <GiConverseShoe size="1.5em" />
+                  <LiaCommentSolid size="1.6em" />
                 </NavLink>
                 <NavLink
                   to="/"
@@ -125,7 +125,7 @@ export default function MyNavBar({
                   }}
                   onClick={() => logout()}
                 >
-                  <CiLogout size="1.5em" />
+                  <CiLogout size="1.6em" />
                 </NavLink>
               </>
             )}
