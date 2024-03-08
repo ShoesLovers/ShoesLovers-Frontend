@@ -6,11 +6,15 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useTokens } from '../hooks/useTokens'
 import { ChangeEvent, useState } from 'react'
+import { saveToLocal } from '../helpers/saveToLocal'
+import toast from 'react-hot-toast'
+
+import { FaRegEdit } from 'react-icons/fa'
 
 const schema = z.object({
-  name: z.string().min(3).max(16).optional(),
-  email: z.string().email().optional(),
-  password: z.string().min(8).max(16).optional(),
+  name: z.string().optional() || z.string().min(3).max(16),
+  email: z.string().optional() || z.string().email(),
+  password: z.string().optional() || z.string().min(8).max(16),
   image: z.string().optional(),
 })
 export type UpdateFormValues = z.infer<typeof schema>
@@ -33,14 +37,36 @@ export default function UpdateUserForm({
   })
 
   const [image, setImage] = useState<File>()
-  const { accessToken } = useTokens()
+  const { accessToken, refreshToken } = useTokens()
   const onSubmit: SubmitHandler<UpdateFormValues> = async data => {
-    const url = await uploadPhoto(image!)
+    console.log(data)
+    if (
+      (getValues('name') === '' &&
+        getValues('email') === '' &&
+        getValues('password') === '' &&
+        user.image === data.image) ||
+      !image
+    ) {
+      toast.error('Please fill the form or select a photo!')
+      return
+    }
+
+    const url: string = await uploadPhoto(image!)
     setValue('image', url)
     const updatedData = { ...data, image: url }
-    const updatedUser = await UpdateUserAPI(user._id, accessToken, updatedData)
-    console.log(updatedUser)
-    setUser(updatedUser)
+    try {
+      const updatedUser = await UpdateUserAPI(
+        user._id,
+        accessToken,
+        updatedData
+      )
+      setUser(updatedUser)
+      saveToLocal(updatedUser, accessToken, refreshToken)
+
+      toast.success('User updated successfully!')
+    } catch (err) {
+      toast.error('Something went wrong!')
+    }
   }
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,10 +75,7 @@ export default function UpdateUserForm({
       setImage(e.target.files[0])
       setValue('image', URL.createObjectURL(e.target.files[0]))
     }
-    console.log(getValues())
-    console.log(getValues('image'))
   }
-  console.log(user)
   return (
     <Container>
       <Row className="justify-content-center mt-3">
@@ -104,9 +127,16 @@ export default function UpdateUserForm({
             </Form.Group>
 
             <div className="text-center">
-              <Button variant="primary" type="submit">
-                Update
-              </Button>
+              <button
+                type="submit"
+                style={{
+                  border: 'none',
+                  background: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                <FaRegEdit size="4rem" color="gray" />
+              </button>
             </div>
           </Form>
         </Col>
