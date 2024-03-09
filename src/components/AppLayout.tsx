@@ -5,7 +5,7 @@ import { userProps } from '../helpers/types'
 import { useMutation } from '@tanstack/react-query'
 import { generateImageAPI } from '../api/auth'
 import { useState } from 'react'
-import ProgressBar from 'react-bootstrap/ProgressBar'
+// import ProgressBar from 'react-bootstrap/ProgressBar' TODO: add progress bar
 
 export default function AppLayout({
   user,
