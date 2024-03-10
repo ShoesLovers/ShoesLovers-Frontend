@@ -12,7 +12,7 @@ import {
   Row,
 } from 'react-bootstrap';
 import toast from 'react-hot-toast';
-import defaultImage from '../assets/images/default.jpg';
+import defaultImage from '../assets/images/shoes.jpg';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
 export default function HomePage() {
