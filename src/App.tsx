@@ -1,24 +1,23 @@
-import { useState } from 'react'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { Toaster } from 'react-hot-toast'
-import Login from './pages/Login'
-import NotFoundPage from './pages/NotFoundPage'
-import AppLayout from './components/AppLayout'
-import Register from './pages/Register'
-import MyAccount from './pages/MyAccount'
-import Posts from './pages/Posts'
-import { PostType, User } from './helpers/types'
+import { useState } from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import Login from "./pages/Login";
+import NotFoundPage from "./pages/NotFoundPage";
+import AppLayout from "./components/AppLayout";
+import Register from "./pages/Register";
+import MyAccount from "./pages/MyAccount";
+import Posts from "./pages/Posts";
+import { User } from "./helpers/types";
 
-const userFromLocal: User = JSON.parse(localStorage.getItem('user') || '{}')
+const userFromLocal: User = JSON.parse(localStorage.getItem("user") || "{}");
 
 function App() {
-  const [user, setUser] = useState<User>(userFromLocal)
-  const [isLoggedIn, setIsLoggedIn] = useState(Object.keys(user).length > 0)
-  const [posts, setPosts] = useState([] as PostType[])
+  const [user, setUser] = useState<User>(userFromLocal);
+  const [isLoggedIn, setIsLoggedIn] = useState(Object.keys(user).length > 0);
 
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
       element: (
         <AppLayout
           user={user}
@@ -29,7 +28,7 @@ function App() {
       ),
       children: [
         {
-          path: 'login',
+          path: "login",
           element: (
             <Login
               setUser={setUser}
@@ -39,54 +38,54 @@ function App() {
           ),
         },
         {
-          path: 'register',
+          path: "register",
           element: <Register setUser={setUser} setIsLoggedIn={setIsLoggedIn} />,
         },
         {
-          path: 'myaccount',
+          path: "myaccount",
           element: <MyAccount user={user} setUser={setUser} />,
         },
         {
-          path: 'posts',
-          element: <Posts posts={posts} setPosts={setPosts} />,
+          path: "posts",
+          element: <Posts />,
         },
       ],
       errorElement: <NotFoundPage />,
     },
-  ])
+  ]);
   return (
     <>
       <RouterProvider router={router} />
       <Toaster
         position="top-center"
         gutter={12}
-        containerStyle={{ margin: '8px' }}
+        containerStyle={{ margin: "8px" }}
         toastOptions={{
           success: {
             duration: 1500,
             style: {
-              background: 'green',
-              color: 'white',
+              background: "green",
+              color: "white",
             },
           },
           error: {
             duration: 3000,
             style: {
-              background: 'red',
-              color: 'white',
+              background: "red",
+              color: "white",
             },
           },
           style: {
-            fontFamily: 'Arial',
-            fontSize: '15px',
-            maxWidth: '500px',
-            padding: '16px 24px',
-            color: 'white',
+            fontFamily: "Arial",
+            fontSize: "15px",
+            maxWidth: "500px",
+            padding: "16px 24px",
+            color: "white",
           },
         }}
       />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
