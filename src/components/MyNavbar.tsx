@@ -1,49 +1,53 @@
-import { useMutation } from '@tanstack/react-query'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import { Container, Nav, Navbar } from 'react-bootstrap'
-import { NavLink } from 'react-router-dom'
-import { LogoutAPI } from '../api/auth'
-import { User, userProps } from '../helpers/types'
-import toast from 'react-hot-toast'
-import ImageShape from './ImageShape'
-import { useState } from 'react'
-import { removeFromLocal } from '../helpers/saveToLocal'
+import { useMutation } from '@tanstack/react-query';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Nav, Navbar } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
+import { LogoutAPI } from '../api/auth';
+import { User, userProps } from '../helpers/types';
+import toast from 'react-hot-toast';
+import ImageShape from './ImageShape';
+import { useState } from 'react';
+import { removeFromLocal } from '../helpers/saveToLocal';
 
-import { CiLogin } from 'react-icons/ci'
-import { CiLogout } from 'react-icons/ci'
-import { MdOutlineAppRegistration } from 'react-icons/md'
-import { IoHomeOutline } from 'react-icons/io5'
-import { MdManageAccounts } from 'react-icons/md'
-import { LiaCommentSolid } from 'react-icons/lia'
+import { CiLogin } from 'react-icons/ci';
+import { CiLogout } from 'react-icons/ci';
+import { MdOutlineAppRegistration } from 'react-icons/md';
+import { IoHomeOutline } from 'react-icons/io5';
+import { MdManageAccounts } from 'react-icons/md';
+import { LiaCommentSolid } from 'react-icons/lia';
 export default function MyNavBar({
   user,
   setUser,
   isLoggedIn,
   setIsLoggedIn,
 }: userProps) {
-  const [showMyImage, setShowMyImage] = useState(true)
+  const [showMyImage, setShowMyImage] = useState(true);
 
   const { mutate: logout } = useMutation({
     mutationFn: LogoutAPI,
     onSuccess: () => {
-      setIsLoggedIn(false)
-      setUser({} as User)
+      setIsLoggedIn(false);
+      setUser({} as User);
 
-      removeFromLocal('user', 'accessToken', 'refreshToken')
+      removeFromLocal('user', 'accessToken', 'refreshToken');
 
-      toast.success('You have successfully logged out 😄')
+      toast.success('You have successfully logged out 😄');
     },
-  })
+  });
 
   const toggleShowMyImage = () => {
-    setShowMyImage(!showMyImage)
-  }
+    setShowMyImage(!showMyImage);
+  };
 
   return (
     <Navbar
       expand="md"
       className="bg-body-tertiary sticky-top"
       onToggle={toggleShowMyImage}
+      style={{
+        fontFamily: 'Arial, sans-serif',
+        fontSize: '1.2em',
+      }}
     >
       <Container>
         <NavLink
@@ -148,5 +152,5 @@ export default function MyNavBar({
         </Navbar.Collapse>
       </Container>
     </Navbar>
-  )
+  );
 }
