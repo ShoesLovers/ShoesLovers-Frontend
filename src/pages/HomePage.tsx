@@ -14,6 +14,7 @@ import {
 import toast from 'react-hot-toast';
 import defaultImage from '../assets/images/shoes.jpg';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Spinner from 'react-bootstrap/Spinner';
 
 export default function HomePage() {
   const [shoesImage, setShoesImage] = useState<string>('');
@@ -43,6 +44,23 @@ export default function HomePage() {
     });
     e.preventDefault();
   };
+
+  if (isPending) {
+    return (
+      <center>
+        <Spinner
+          animation="border"
+          role="status"
+          variant="secondary"
+          style={{
+            marginTop: '20%',
+            width: '100px',
+            height: '100px',
+          }}
+        />
+      </center>
+    );
+  }
   return (
     <Container
       style={{
@@ -55,7 +73,7 @@ export default function HomePage() {
           <div>
             <Image
               src={shoesImage ? shoesImage : defaultImage}
-              style={{ height: '270px', width: '270px', marginTop: '40px' }}
+              style={{ height: '350px', width: '350px', marginTop: '40px' }}
               rounded
             />
           </div>
@@ -77,6 +95,7 @@ export default function HomePage() {
                     fontSize: '20px',
                   }}
                   type="text"
+                  value={prompt}
                   onChange={e => setPrompt(e.target.value)}
                   placeholder="Include 'shoes' in the request..."
                 />
