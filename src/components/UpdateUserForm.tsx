@@ -12,10 +12,10 @@ import toast from 'react-hot-toast'
 import { FaRegEdit } from 'react-icons/fa'
 
 const schema = z.object({
-  name: z.string().optional() || z.string().min(3).max(16),
-  email: z.string().optional() || z.string().email(),
-  password: z.string().optional() || z.string().min(8).max(16),
-  image: z.string().optional(),
+  name: z.string().min(3).max(20).optional().or(z.literal('')),
+  email: z.string().email().optional().or(z.literal('')),
+  password: z.string().min(8).max(16).optional().or(z.literal('')),
+  image: z.string().optional().nullable(),
 })
 export type UpdateFormValues = z.infer<typeof schema>
 
@@ -27,7 +27,6 @@ export default function UpdateUserForm({
   setUser: (user: User) => void
 }) {
   const {
-    getValues,
     register,
     setValue,
     handleSubmit,
@@ -39,20 +38,18 @@ export default function UpdateUserForm({
   const [image, setImage] = useState<File>()
   const { accessToken, refreshToken } = useTokens()
   const onSubmit: SubmitHandler<UpdateFormValues> = async data => {
-    console.log(data)
-    if (
-      (getValues('name') === '' &&
-        getValues('email') === '' &&
-        getValues('password') === '' &&
-        user.image === data.image) ||
-      !image
-    ) {
-      toast.error('Please fill the form or select a photo!')
+    if (!data.email && !data.name && !data.password && !image) {
+      toast.error('No changes made!')
       return
     }
+    let url
+    if (image) {
+      url = await uploadPhoto(image!)
+      setValue('image', url)
+    } else {
+      url = user.image
+    }
 
-    const url: string = await uploadPhoto(image!)
-    setValue('image', url)
     const updatedData = { ...data, image: url }
     try {
       const updatedUser = await UpdateUserAPI(
@@ -120,7 +117,7 @@ export default function UpdateUserForm({
 
             <Form.Group className="mb-3" controlId="password">
               <Form.Label>Edit password</Form.Label>
-              <Form.Control type="text" {...register('password')} />
+              <Form.Control type="password" {...register('password')} />
               {errors.password && (
                 <Form.Text>{errors.password.message}</Form.Text>
               )}
