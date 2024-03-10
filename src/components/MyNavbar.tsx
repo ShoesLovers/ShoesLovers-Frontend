@@ -22,7 +22,6 @@ export default function MyNavBar({
   setIsLoggedIn,
 }: userProps) {
   const [showMyImage, setShowMyImage] = useState(true);
-
   const { mutate: logout } = useMutation({
     mutationFn: LogoutAPI,
     onSuccess: () => {
@@ -30,7 +29,6 @@ export default function MyNavBar({
       setUser({} as User);
 
       removeFromLocal('user', 'accessToken', 'refreshToken');
-
       toast.success('You have successfully logged out 😄');
     },
   });

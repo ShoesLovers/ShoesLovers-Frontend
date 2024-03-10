@@ -6,7 +6,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import AppLayout from './components/AppLayout';
 import Register from './pages/Register';
 import MyAccount from './pages/MyAccount';
-import Posts from './pages/Posts';
+import Posts from './pages/PostsList';
 import { User } from './helpers/types';
 import HomePage from './pages/HomePage';
 
@@ -40,15 +40,25 @@ function App() {
         },
         {
           path: 'register',
-          element: <Register setUser={setUser} setIsLoggedIn={setIsLoggedIn} />,
+          element: (
+            <Register
+              setUser={setUser}
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          ),
         },
         {
           path: 'myaccount',
-          element: <MyAccount user={user} setUser={setUser} />,
+          element: (
+            <MyAccount user={user} setUser={setUser} isLoggedIn={isLoggedIn} />
+          ),
         },
         {
           path: 'posts',
-          element: <Posts />,
+          element: (
+            <Posts isLoggedIn={isLoggedIn} user={user} setUser={setUser} />
+          ),
         },
         {
           path: '/',

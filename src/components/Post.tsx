@@ -10,10 +10,12 @@ export default function Post({
   post,
   setPosts,
   posts,
+  user,
 }: {
   posts: PostType[];
   post: PostType;
   setPosts: (posts: PostType[]) => void;
+  user: User;
 }) {
   const { accessToken } = useTokens();
   const userFromLocal: User = JSON.parse(localStorage.getItem('user') || '{}');
@@ -34,10 +36,7 @@ export default function Post({
   return (
     <center className="mt-3 mb-3">
       <Card style={{ width: '32rem' }}>
-        {/* <Card.Img
-          variant="top"
-          src="src\assets\images\Labrador_Retriever_portrait.jpg"
-        /> */}
+        <Card.Img variant="top" src={post.image || ''} />
         <Card.Body>
           <Card.Text>{post.title}</Card.Text>
           <Card.Text>{post.message}</Card.Text>
