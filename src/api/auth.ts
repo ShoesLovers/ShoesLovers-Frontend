@@ -1,4 +1,12 @@
-
+import { CredentialResponse } from '@react-oauth/google';
+import apiClient from './apiClient';
+import { UpdateFormValues } from '../components/UpdateUserForm';
+import { PostFormValues } from '../components/PostForm';
+import { User } from '../helpers/types';
+import { PostType } from '../helpers/types';
+import { LoginProps } from '../helpers/types';
+import { RegisterProps } from '../helpers/types';
+import OpenAI from 'openai';
 
 export async function LoginAPI({ email, password }: LoginProps) {
   const response = await fetch('http://localhost:3000/auth/login', {
@@ -145,8 +153,9 @@ export async function deletePostAPI(id: string, accessToken: string) {
   });
 }
 
-export function getPostsAPI(accessToken: string) {
-  console.log('getPosts ...');
+export function getPostsAPI() {
+  const accessToken = localStorage.getItem('accessToken');
+
   return new Promise<PostType[]>((resolve, reject) => {
     apiClient
       .get('/post', {
@@ -156,6 +165,7 @@ export function getPostsAPI(accessToken: string) {
       })
       .then(response => {
         resolve(response.data);
+        console.log(response.data);
       })
       .catch(error => {
         console.log(error);
@@ -170,7 +180,8 @@ interface IUpoloadResponse {
 
 export const uploadPhoto = async (photo: File) => {
   return new Promise<string>((resolve, reject) => {
-
+    console.log('Uploading photo...');
+    const formData = new FormData();
     if (photo) {
       formData.append('file', photo);
       apiClient
@@ -180,7 +191,7 @@ export const uploadPhoto = async (photo: File) => {
           },
         })
         .then(res => {
-
+          resolve(res.data.url);
         })
         .catch(err => {
           console.log(err);
@@ -204,22 +215,5 @@ export async function generateImageAPI(prompt: string) {
   } catch (err) {
     console.log(err);
     throw err;
-  }
-}
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true,
-})
-export async function generateImageAPI(prompt: string) {
-  try {
-    const response = await openai.images.generate({
-      prompt,
-      n: 1,
-      size: '512x512',
-    })
-    return response.data
-  } catch (err) {
-    console.log(err)
-    throw err
   }
 }
