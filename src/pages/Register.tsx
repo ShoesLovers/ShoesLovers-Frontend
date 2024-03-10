@@ -46,15 +46,17 @@ export default function Register({
   const [image, setImage] = useState<File>()
 
   const onSubmit: SubmitHandler<RegisterFormFields> = async data => {
+    let url
     if (!image) {
       // Create a File object from the default avatar image
       const defaultImageFile = await fetch(avatar)
         .then(res => res.blob())
         .then(blob => new File([blob], 'default.jpg'))
       setImage(defaultImageFile)
+      url = await uploadPhoto(defaultImageFile)
+    } else {
+      url = await uploadPhoto(image)
     }
-
-    const url = await uploadPhoto(image!)
     setValue('image', url)
     const newData = { ...data, image: url }
 
@@ -64,6 +66,7 @@ export default function Register({
         setValue('name', '')
         setValue('email', '')
         setValue('password', '')
+        setValue('image', '')
       },
     })
   }
