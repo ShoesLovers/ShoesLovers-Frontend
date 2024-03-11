@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { ChangeEvent, useState } from 'react';
 import { useTokens } from '../hooks/useTokens';
 import { uploadPhoto } from '../api/auth';
-import { createPostAPI } from '../api/post';
+import { createPostAPI } from '../api/post_api';
 
 const schema = z.object({
   image: z.string().optional(),
@@ -80,7 +80,8 @@ export default function PostForm({
 
           <Form.Group className="mb-3" controlId="textarea">
             <Form.Control
-              type="textarea"
+              as="textarea"
+              rows={10}
               {...register('message')}
               placeholder="Write your message here"
               style={{ height: '150px' }}

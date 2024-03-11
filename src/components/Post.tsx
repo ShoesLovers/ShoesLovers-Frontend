@@ -1,10 +1,11 @@
 import { Card, Button } from 'react-bootstrap';
 import { PostType, User } from '../helpers/types';
-import { deletePostAPI } from '../api/post';
+import { deletePostAPI } from '../api/post_api';
 import { useTokens } from '../hooks/useTokens';
-import Comments from './Comments';
+import Comments from './Comment';
 import { useState } from 'react';
-import AddComment from './AddComment';
+import AddComment from './CommentForm';
+import CommentForm from './CommentForm';
 
 export default function Post({
   post,
@@ -66,9 +67,15 @@ export default function Post({
             <Button onClick={handleShow} variant="primary">
               Add Comment
             </Button>
-            {show && <AddComment show={show} handleClose={handleClose} />}
+            {/* {show && (
+              <CommentForm
+                show={show}
+                handleClose={handleClose}
+                comments={comments}
+              />
+            )} */}
           </Card.Body>
-          <Comments />
+
           {/* <Button variant="outline-info">Comments</Button> */}
         </Card.Body>
       </Card>
