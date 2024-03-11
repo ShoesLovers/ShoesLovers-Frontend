@@ -1,13 +1,9 @@
-import { useMutation } from '@tanstack/react-query';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import { LogoutAPI } from '../api/auth';
-import { User, userProps } from '../helpers/types';
-import toast from 'react-hot-toast';
+import { userProps } from '../helpers/types';
 import ImageShape from './ImageShape';
 import { useState } from 'react';
-import { removeFromLocal } from '../helpers/saveToLocal';
 
 import { CiLogin } from 'react-icons/ci';
 import { CiLogout } from 'react-icons/ci';
@@ -15,6 +11,8 @@ import { MdOutlineAppRegistration } from 'react-icons/md';
 import { IoHomeOutline } from 'react-icons/io5';
 import { MdManageAccounts } from 'react-icons/md';
 import { LiaCommentSolid } from 'react-icons/lia';
+import { useLogout } from '../hooks/useLogout';
+import MySpinner from './MySpinner';
 export default function MyNavBar({
   user,
   setUser,
@@ -22,21 +20,13 @@ export default function MyNavBar({
   setIsLoggedIn,
 }: userProps) {
   const [showMyImage, setShowMyImage] = useState(true);
-  const { mutate: logout } = useMutation({
-    mutationFn: LogoutAPI,
-    onSuccess: () => {
-      setIsLoggedIn(false);
-      setUser({} as User);
-
-      removeFromLocal('user', 'accessToken', 'refreshToken');
-      toast.success('You have successfully logged out 😄');
-    },
-  });
+  const { logout, isPending } = useLogout(setIsLoggedIn, setUser);
 
   const toggleShowMyImage = () => {
     setShowMyImage(!showMyImage);
   };
 
+  if (isPending) return <MySpinner />;
   return (
     <Navbar
       expand="md"

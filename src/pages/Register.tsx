@@ -10,7 +10,6 @@ import {
   Button,
   Image,
   CardTitle,
-  Spinner,
 } from 'react-bootstrap';
 import { useRegister } from '../hooks/useRegister';
 import { User } from '../helpers/types';
@@ -18,6 +17,7 @@ import avatar from '../assets/images/default.jpg';
 import { useState } from 'react';
 import { uploadPhoto } from '../api/auth';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import MySpinner from '../components/MySpinner';
 
 const schema = z.object({
   image: z.string().optional(),
@@ -86,20 +86,7 @@ export default function Register({
   };
 
   if (isPending) {
-    return (
-      <center>
-        <Spinner
-          animation="border"
-          role="status"
-          variant="secondary"
-          style={{
-            marginTop: '20%',
-            width: '100px',
-            height: '100px',
-          }}
-        />
-      </center>
-    );
+    return <MySpinner />;
   }
 
   return (

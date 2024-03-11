@@ -2,20 +2,13 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
-import {
-  Col,
-  Container,
-  Row,
-  Form,
-  Button,
-  CardTitle,
-  Spinner,
-} from 'react-bootstrap';
+import { Col, Container, Row, Form, Button, CardTitle } from 'react-bootstrap';
 import { useLogin } from '../hooks/useLogin';
 import LoginWithGoogle from '../components/LoginWithGoogle';
 import { User } from '../helpers/types';
 import { Link } from 'react-router-dom';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import MySpinner from '../components/MySpinner';
 
 const schema = z.object({
   email: z.string().email(),
@@ -55,20 +48,7 @@ export default function Login({
   };
 
   if (isPending) {
-    return (
-      <center>
-        <Spinner
-          animation="border"
-          role="status"
-          variant="secondary"
-          style={{
-            marginTop: '20%',
-            width: '100px',
-            height: '100px',
-          }}
-        />
-      </center>
-    );
+    return <MySpinner />;
   }
 
   return (
