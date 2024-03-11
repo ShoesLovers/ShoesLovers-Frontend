@@ -15,13 +15,13 @@ const schema = z.object({
 export type PostFormValues = z.infer<typeof schema>;
 
 export default function PostForm({
-  posts,
   setPosts,
+  posts,
   setUser,
   user,
 }: {
-  posts: PostType[];
   setPosts: (posts: PostType[]) => void;
+  posts: PostType[];
   user: User;
   setUser: (user: User) => void;
 }) {
@@ -44,20 +44,21 @@ export default function PostForm({
   };
 
   const onSubmit: SubmitHandler<PostFormValues> = async data => {
-    let newPost;
-    // const user: User = JSON.parse(localStorage.getItem('user')!);
+    // let newPost: PostType;
 
+    let url;
     if (image) {
-      const url = await uploadPhoto(image);
-      newPost = await createPostAPI(accessToken, { ...data, image: url });
-    } else {
-      newPost = await createPostAPI(accessToken, data);
+      url = await uploadPhoto(image);
     }
+    setValue('image', url);
+    const newData = { ...data, image: url };
+    const newPost = await createPostAPI(accessToken, newData);
+    console.log(newPost);
+    const updatedUser = { ...user, posts: [newPost, ...user.posts] };
+    localStorage.setItem('user', JSON.stringify(updatedUser));
 
-    const currentPosts = [...posts, newPost];
-    setPosts([...posts, newPost]);
-    const updatedUser: User = { ...user, posts: [...user.posts!, newPost] };
     setUser(updatedUser);
+    setPosts([newPost, ...posts]);
   };
 
   return (
@@ -65,14 +66,14 @@ export default function PostForm({
       <div style={{ backgroundColor: '' }}>
         <Form style={{ width: '32rem' }} onSubmit={handleSubmit(onSubmit)}>
           <Form.Group className="mb-3" controlId="formFile">
-            <Form.Label>Default file input example</Form.Label>
+            <Form.Label>Upload the post image</Form.Label>
             <Image src={image ? URL.createObjectURL(image) : ''} />
             <Form.Control type="file" onChange={handleImage} />
             {errors.image && <Form.Text>{errors.image.message}</Form.Text>}
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="postTitle">
-            <Form.Label>Upload Profie Image</Form.Label>
+            <Form.Label>Enter the post title</Form.Label>
             <Form.Control type="text" {...register('title')} />
           </Form.Group>
 

@@ -25,7 +25,7 @@ export default function LoginWithGoogle({
       localStorage.setItem('accessToken', accessToken);
 
       toast.success(`Hello ${user.name}! You have successfully logged in 😄`);
-      navigate('/myaccount');
+      navigate('/posts');
     } catch (err) {
       console.log(err);
     }

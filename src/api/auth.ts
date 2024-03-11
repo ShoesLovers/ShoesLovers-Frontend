@@ -155,7 +155,6 @@ export async function deletePostAPI(id: string, accessToken: string) {
 
 export function getPostsAPI() {
   const accessToken = localStorage.getItem('accessToken');
-
   return new Promise<PostType[]>((resolve, reject) => {
     apiClient
       .get('/post', {
@@ -165,7 +164,6 @@ export function getPostsAPI() {
       })
       .then(response => {
         resolve(response.data);
-        console.log(response.data);
       })
       .catch(error => {
         console.log(error);

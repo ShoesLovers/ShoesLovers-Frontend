@@ -58,7 +58,7 @@ export default function UpdateUserForm({
         accessToken,
         updatedData
       );
-      setUser(updatedUser);
+      setUser(user);
       saveToLocal(updatedUser, accessToken, refreshToken);
 
       toast.success('User updated successfully!');
