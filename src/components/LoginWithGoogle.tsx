@@ -35,6 +35,7 @@ export default function LoginWithGoogle({
   };
   return (
     <GoogleLogin
+      useOneTap={true}
       shape="circle"
       size="large"
       onSuccess={onSuccess}
