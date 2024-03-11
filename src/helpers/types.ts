@@ -13,9 +13,15 @@ export type PostType = {
   image?: string;
   message: string;
   owner: string;
-  comments?: string[];
+  comments?: CommentType[];
   title: string;
   __v?: number;
+};
+export type CommentType = {
+  _id: string;
+  content: string;
+  writer: string;
+  postId: string;
 };
 export type UserWithTokens = {
   account: User;

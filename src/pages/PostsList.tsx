@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import Post from '../components/Post';
 import PostForm from '../components/PostForm';
 import { PostType, User } from '../helpers/types';
-import { getPostsAPI } from '../api/post';
+import { getPostsAPI } from '../api/post_api';
 
 export default function PostsList({
   isLoggedIn,

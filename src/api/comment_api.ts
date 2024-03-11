@@ -1,14 +1,15 @@
-import { PostFormValues } from '../components/PostForm';
-import { PostType } from '../helpers/types';
 import apiClient from './apiClient';
+import { CommentFormValues } from '../components/CommentForm';
+import { CommentType } from '../helpers/types';
 
-export async function createPostAPI(
+export async function creatCommentAPI(
   accessToken: string,
-  postValues: PostFormValues
+  commentValues: CommentFormValues,
+  postId: string
 ) {
-  return new Promise<PostType>((resolve, reject) => {
+  return new Promise<CommentType>((resolve, reject) => {
     apiClient
-      .post('/post', postValues, {
+      .post(`comment/${postId}`, commentValues, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `JWT ${accessToken}`,
@@ -24,18 +25,16 @@ export async function createPostAPI(
       });
   });
 }
-
-export async function deletePostAPI(id: string, accessToken: string) {
-  console.log('deletePost ...');
+export async function deleteCommentAPI(id: string, accessToken: string) {
   return new Promise<void>((resolve, reject) => {
     apiClient
-      .delete(`/post/${id}`, {
+      .delete(`/comment/${id}`, {
         headers: {
           Authorization: `JWT ${accessToken}`,
         },
       })
       .then(() => {
-        console.log('Post deleted successfully!');
+        console.log('Comment deleted successfully!');
         resolve();
       })
       .catch(error => {
@@ -44,16 +43,10 @@ export async function deletePostAPI(id: string, accessToken: string) {
       });
   });
 }
-
-export function getPostsAPI() {
-  const accessToken = localStorage.getItem('accessToken');
-  return new Promise<PostType[]>((resolve, reject) => {
+export async function getCommentsAPI() {
+  return new Promise<CommentType[]>((resolve, reject) => {
     apiClient
-      .get('/post', {
-        headers: {
-          Authorization: `JWT ${accessToken}`,
-        },
-      })
+      .get(`/comment`)
       .then(response => {
         resolve(response.data);
       })
