@@ -1,26 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Post from '../components/Post';
 import PostForm from '../components/PostForm';
 import { PostType, User } from '../helpers/types';
 import { getPostsAPI } from '../api/auth';
 
-export default function Posts({
+export default function PostsList({
   isLoggedIn,
   user,
   setUser,
+  posts,
+  setPosts,
 }: {
   isLoggedIn: boolean;
   user: User;
   setUser: (user: User) => void;
+  posts: PostType[];
+  setPosts: (posts: PostType[]) => void;
 }) {
-  const [posts, setPosts] = useState([] as PostType[]);
   useEffect(() => {
     async function renderPosts() {
-      const postsList = await getPostsAPI();
-      setPosts(postsList);
+      const postsFromDb: PostType[] = await getPostsAPI();
+      setPosts(postsFromDb);
     }
     renderPosts();
-  }, []);
+  }, [setPosts]);
+
   return (
     <div>
       {isLoggedIn ? (
@@ -35,6 +39,7 @@ export default function Posts({
           {posts.map(post => (
             <Post
               user={user}
+              setUser={setUser}
               key={post._id}
               post={post}
               setPosts={setPosts}

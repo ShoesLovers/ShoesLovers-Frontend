@@ -1,4 +1,4 @@
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form } from 'react-bootstrap';
 
 export default function AddComment({
   show,

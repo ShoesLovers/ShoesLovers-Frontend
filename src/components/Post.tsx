@@ -11,27 +11,33 @@ export default function Post({
   setPosts,
   posts,
   user,
+  setUser,
 }: {
   posts: PostType[];
   post: PostType;
   setPosts: (posts: PostType[]) => void;
   user: User;
+  setUser: (user: User) => void;
 }) {
   const { accessToken } = useTokens();
   const userFromLocal: User = JSON.parse(localStorage.getItem('user') || '{}');
   const userId = userFromLocal._id;
 
   const [show, setShow] = useState(false);
+
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
-  const handleDeletePost = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
+  const handleDeletePost = async () => {
     await deletePostAPI(post._id, accessToken);
-    setPosts([...posts.filter(p => p._id !== post._id)]);
+    const updatedPostsArray = posts.filter(p => p._id !== post._id);
+    const updatedUser = { ...user, posts: updatedPostsArray };
+    setPosts(updatedPostsArray);
+    setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser));
   };
+
+  const handleEditPost = async () => {};
 
   return (
     <center className="mt-3 mb-3">
@@ -44,7 +50,10 @@ export default function Post({
         <Card.Body>
           {userId === post.owner && (
             <div>
-              <Button variant="secondary"> Edit Post</Button>
+              <Button variant="secondary" onClick={handleEditPost}>
+                {' '}
+                Edit Post
+              </Button>
               <Button variant="info" onClick={handleDeletePost}>
                 Delete Post
               </Button>
