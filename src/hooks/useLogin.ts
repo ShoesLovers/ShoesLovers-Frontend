@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { LoginAPI, getUserAPI } from '../api/auth';
+import { LoginAPI } from '../api/auth';
+import { getUserAPI } from '../api/account';
 import toast from 'react-hot-toast';
 import { LoginFormFields } from '../pages/Login';
 import { User } from '../helpers/types';

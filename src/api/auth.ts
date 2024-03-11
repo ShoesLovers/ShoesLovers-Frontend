@@ -1,12 +1,9 @@
 import { CredentialResponse } from '@react-oauth/google';
 import apiClient from './apiClient';
 import { UpdateFormValues } from '../components/UpdateUserForm';
-import { PostFormValues } from '../components/PostForm';
 import { User } from '../helpers/types';
-import { PostType } from '../helpers/types';
 import { LoginProps } from '../helpers/types';
 import { RegisterProps } from '../helpers/types';
-import OpenAI from 'openai';
 
 export async function LoginAPI({ email, password }: LoginProps) {
   const response = await fetch('http://localhost:3000/auth/login', {
@@ -26,28 +23,20 @@ export async function RegisterAPI({
   name,
   image,
 }: RegisterProps) {
-  const response = await fetch('http://localhost:3000/auth/register', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      email,
-      password,
-      name,
-      image,
-    }),
+  const response = await apiClient.post('/auth/register', {
+    email,
+    password,
+    name,
+    image,
   });
-  const data = await response.json();
+  const data = await response.data;
   return data;
 }
 
 export async function LogoutAPI() {
   const refreshToken = localStorage.getItem('refreshToken');
-  await fetch('http://localhost:3000/auth/logout', {
-    method: 'POST',
+  await apiClient.post('/auth/logout', null, {
     headers: {
-      'Content-Type': 'application/json',
       Authorization: `JWT ${refreshToken}`,
     },
   });
@@ -69,24 +58,14 @@ export async function LoginWithGoogleAPI<User>(credential: CredentialResponse) {
 }
 
 export async function getUserAPI(id: string, accessToken: string) {
-  return new Promise<User>((resolve, reject) => {
-    console.log('getUser ...');
-    apiClient
-      .get(`/account/${id}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `JWT ${accessToken}`,
-        },
-      })
-      .then(response => {
-        resolve(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-        reject(error);
-      });
+  const response = await apiClient.get(`/account/${id}`, {
+    headers: {
+      Authorization: `JWT ${accessToken}`,
+    },
   });
+  return response.data;
 }
+
 export async function UpdateUserAPI(
   id: string,
   accessToken: string,
@@ -110,72 +89,10 @@ export async function UpdateUserAPI(
       });
   });
 }
-export async function createPostAPI(
-  accessToken: string,
-  postValues: PostFormValues
-) {
-  return new Promise<PostType>((resolve, reject) => {
-    apiClient
-      .post('/post', postValues, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `JWT ${accessToken}`,
-        },
-      })
-      .then(response => {
-        resolve(response.data);
-      })
-      .catch(error => {
-        console.log('test');
-        console.log(error);
-        reject(error);
-      });
-  });
-}
-
-export async function deletePostAPI(id: string, accessToken: string) {
-  console.log('deletePost ...');
-  return new Promise<void>((resolve, reject) => {
-    apiClient
-      .delete(`/post/${id}`, {
-        headers: {
-          Authorization: `JWT ${accessToken}`,
-        },
-      })
-      .then(() => {
-        console.log('Post deleted successfully!');
-        resolve();
-      })
-      .catch(error => {
-        console.log(error);
-        reject(error);
-      });
-  });
-}
-
-export function getPostsAPI() {
-  const accessToken = localStorage.getItem('accessToken');
-  return new Promise<PostType[]>((resolve, reject) => {
-    apiClient
-      .get('/post', {
-        headers: {
-          Authorization: `JWT ${accessToken}`,
-        },
-      })
-      .then(response => {
-        resolve(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-        reject(error);
-      });
-  });
-}
 
 interface IUpoloadResponse {
   url: string;
 }
-
 export const uploadPhoto = async (photo: File) => {
   return new Promise<string>((resolve, reject) => {
     console.log('Uploading photo...');
@@ -198,20 +115,3 @@ export const uploadPhoto = async (photo: File) => {
     }
   });
 };
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true,
-});
-export async function generateImageAPI(prompt: string) {
-  try {
-    const response = await openai.images.generate({
-      prompt,
-      n: 1,
-      size: '512x512',
-    });
-    return response.data;
-  } catch (err) {
-    console.log(err);
-    throw err;
-  }
-}

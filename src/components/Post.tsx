@@ -1,6 +1,6 @@
 import { Card, Button } from 'react-bootstrap';
 import { PostType, User } from '../helpers/types';
-import { deletePostAPI } from '../api/auth';
+import { deletePostAPI } from '../api/post';
 import { useTokens } from '../hooks/useTokens';
 import Comments from './Comments';
 import { useState } from 'react';
