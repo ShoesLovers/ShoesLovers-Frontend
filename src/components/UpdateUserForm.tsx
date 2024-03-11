@@ -1,5 +1,6 @@
 import { Col, Container, Form, Image, Row, Spinner } from 'react-bootstrap';
-import { UpdateUserAPI, uploadPhoto } from '../api/auth';
+import { uploadPhoto } from '../api/auth';
+import { UpdateUserAPI } from '../api/account';
 import { User } from '../helpers/types';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';

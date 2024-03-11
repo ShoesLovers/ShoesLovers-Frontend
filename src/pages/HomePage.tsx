@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { generateImageAPI } from '../api/auth';
+import { generateImageAPI } from '../api/openai';
 import {
   Button,
   Col,

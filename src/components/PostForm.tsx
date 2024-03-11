@@ -5,7 +5,8 @@ import { PostType, User } from '../helpers/types';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ChangeEvent, useState } from 'react';
 import { useTokens } from '../hooks/useTokens';
-import { createPostAPI, uploadPhoto } from '../api/auth';
+import { uploadPhoto } from '../api/auth';
+import { createPostAPI } from '../api/post';
 
 const schema = z.object({
   image: z.string().optional(),
