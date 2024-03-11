@@ -1,4 +1,4 @@
-import { Col, Container, Form, Image, Row, Spinner } from 'react-bootstrap';
+import { Col, Container, Form, Image, Row } from 'react-bootstrap';
 import { uploadPhoto } from '../api/auth';
 import { UpdateUserAPI } from '../api/account';
 import { User } from '../helpers/types';
@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
 import { FaRegEdit } from 'react-icons/fa';
+import MySpinner from './MySpinner';
 
 const schema = z.object({
   name: z.string().min(3).max(20).optional().or(z.literal('')),
@@ -76,20 +77,7 @@ export default function UpdateUserForm({
     }
   };
   if (isSubmitting) {
-    return (
-      <center>
-        <Spinner
-          animation="border"
-          role="status"
-          variant="secondary"
-          style={{
-            marginTop: '20%',
-            width: '100px',
-            height: '100px',
-          }}
-        />
-      </center>
-    );
+    return <MySpinner />;
   }
 
   return (
