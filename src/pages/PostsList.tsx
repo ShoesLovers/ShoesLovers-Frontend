@@ -1,34 +1,32 @@
-import { useEffect, useState } from 'react';
 import Post from '../components/Post';
 import PostForm from '../components/PostForm';
-import { PostType } from '../helpers/types';
-import { getPostsAPI } from '../api/post_api';
+import usePosts from '../hooks/usePosts';
+import MySpinner from '../components/MySpinner';
 
 export default function PostsList({ isLoggedIn }: { isLoggedIn: boolean }) {
-  const [posts, setPosts] = useState<PostType[]>([] as PostType[]);
+  const { posts, setPosts, isPending, refetch } = usePosts();
 
-  useEffect(() => {
-    async function renderPosts() {
-      const postsFromDb: PostType[] = await getPostsAPI();
-      setPosts(postsFromDb.reverse());
-    }
-    renderPosts();
-  }, []);
+  if (isPending) {
+    return <MySpinner />;
+  }
 
   return (
     <div>
       {isLoggedIn ? (
         <>
-          <PostForm posts={posts} setPosts={setPosts} />
+          <PostForm posts={posts} setPosts={setPosts} refetch={refetch} />
+          <center>
+            <h3>Number of posts: {posts.length}</h3>
+          </center>
           {posts.map(post => (
             <Post
               key={post._id}
               post={post}
               setPosts={setPosts}
               posts={posts}
+              refetch={refetch}
             />
           ))}
-          <h5>Number or posts: {posts.length}</h5>
         </>
       ) : (
         <h1>Login to see the posts</h1>

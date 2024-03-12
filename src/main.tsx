@@ -4,8 +4,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './App.tsx';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const queryClient = new QueryClient();
 const clientId =

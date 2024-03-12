@@ -8,6 +8,7 @@ import { uploadPhoto } from '../api/auth_api';
 import { editPostAPI } from '../api/post_api';
 import { useTokens } from '../hooks/useTokens';
 import toast from 'react-hot-toast';
+import MySpinner from './MySpinner';
 
 const schema = z.object({
   image: z.string().optional().nullable(),
@@ -34,7 +35,7 @@ export default function EditPostForm({
     handleSubmit,
     setValue,
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<PostFormValues>({
     resolver: zodResolver(schema),
   });
@@ -44,10 +45,7 @@ export default function EditPostForm({
 
   const onSubmit: SubmitHandler<PostFormValues> = async data => {
     if (!data.title && !data.message && !image) {
-      if (post.message === '' && post.title === '') {
-        toast.error('No changes made!');
-        return;
-      }
+      return toast.error('You must provide at least one field to update');
     }
 
     let url;
@@ -65,6 +63,7 @@ export default function EditPostForm({
         message: data.message || post.message,
         image: url,
       };
+
       const updatedPost = await editPostAPI(post._id, accessToken, updatedData);
       setPosts(posts.map(p => (p._id === updatedPost._id ? updatedPost : p)));
       setShowEditForm(false);
@@ -87,6 +86,8 @@ export default function EditPostForm({
     setPosts(posts.map(p => (p._id === post._id ? { ...post, image: '' } : p)));
     localStorage.setItem('posts', JSON.stringify(posts));
   };
+
+  if (isSubmitting) return <MySpinner />;
 
   return (
     <Modal show={showEditForm} onHide={() => setShowEditForm(false)}>

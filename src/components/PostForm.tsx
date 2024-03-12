@@ -7,6 +7,7 @@ import { ChangeEvent, useState } from 'react';
 import { useTokens } from '../hooks/useTokens';
 import { uploadPhoto } from '../api/auth_api';
 import { createPostAPI } from '../api/post_api';
+import MySpinner from './MySpinner';
 
 const schema = z.object({
   image: z.string().optional(),
@@ -19,15 +20,17 @@ export type PostFormValues = z.infer<typeof schema>;
 export default function PostForm({
   setPosts,
   posts,
+  refetch,
 }: {
   setPosts: (posts: PostType[]) => void;
   posts: PostType[];
+  refetch: () => void;
 }) {
   const {
     handleSubmit,
     register,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<PostFormValues>({
     resolver: zodResolver(schema),
   });
@@ -50,9 +53,15 @@ export default function PostForm({
     const newData = { ...data, image: url };
     const newPost = await createPostAPI(accessToken, newData);
 
-    localStorage.setItem('posts', JSON.stringify([newPost, ...posts]));
     setPosts([newPost, ...posts]);
+    refetch();
+    setValue('image', '');
+    setValue('title', '');
+    setValue('message', '');
+    setImage(undefined);
   };
+
+  if (isSubmitting) return <MySpinner />;
 
   return (
     <center>
