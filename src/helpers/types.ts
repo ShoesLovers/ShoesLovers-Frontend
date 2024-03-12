@@ -12,7 +12,7 @@ export type PostType = {
   _id: string;
   image?: string;
   message: string;
-  owner: string;
+  owner: User;
   comments?: CommentType[];
   title: string;
   __v?: number;
@@ -20,7 +20,7 @@ export type PostType = {
 export type CommentType = {
   _id: string;
   content: string;
-  writer: string;
+  writer: User;
   postId: string;
 };
 export type UserWithTokens = {

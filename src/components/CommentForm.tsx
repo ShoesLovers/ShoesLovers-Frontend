@@ -6,6 +6,7 @@ import { useTokens } from '../hooks/useTokens';
 import { creatCommentAPI } from '../api/comment_api';
 import { CommentType, PostType } from '../helpers/types';
 import toast from 'react-hot-toast';
+import { getPostById } from '../api/post_api';
 
 const schema = z.object({
   content: z.string().min(1).max(255),
@@ -43,13 +44,12 @@ export default function CommentForm({
 
     setComments([...comments, newComment]);
 
-    const updatedPost = {
-      ...post,
-      comments: [...(post.comments || []), newComment],
-    };
+    const updatedPost = await getPostById(post._id);
+    const updatedPosts = posts.map(p =>
+      p._id === updatedPost._id ? updatedPost : p
+    );
+    setPosts(updatedPosts);
 
-    setPosts([...posts, updatedPost]);
-    console.log('posts', updatedPost);
     setShowCommentForm(false);
     toast.success('Comment successfully added!');
   };

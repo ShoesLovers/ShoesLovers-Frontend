@@ -1,11 +1,10 @@
 import { Card, Button } from 'react-bootstrap';
 import { CommentType, PostType, User } from '../helpers/types';
-import { deletePostAPI, getPostById } from '../api/post_api';
+import { deletePostAPI } from '../api/post_api';
 import { useTokens } from '../hooks/useTokens';
 import { useEffect, useState } from 'react';
 import CommentForm from './CommentForm';
 import EditPostForm from './EditPostForm';
-import { getCommentsAPI } from '../api/comment_api';
 import CommentList from '../pages/CommentList';
 
 export default function Post({
@@ -41,15 +40,8 @@ export default function Post({
   };
 
   useEffect(() => {
-    async function renderComments() {
-      const commentsFromDb: CommentType[] = (await getPostById(post._id))
-        .comments!;
-      setComments(commentsFromDb);
-      console.log(commentsFromDb);
-      console.log(comments);
-    }
-    renderComments();
-  }, []);
+    setComments(post.comments || []);
+  }, [post.comments]);
 
   return (
     <>
@@ -61,7 +53,7 @@ export default function Post({
             <Card.Text>{post.message}</Card.Text>
           </Card.Body>
           <Card.Body>
-            {userId === post.owner && (
+            {userId === post.owner._id && (
               <div>
                 <Button
                   variant="secondary"
@@ -112,12 +104,13 @@ export default function Post({
           setShowCommentForm={handleCommentFormClose}
         />
       )}
+
       {showComments && (
         <CommentList
-          post={post}
           comments={comments}
           setComments={setComments}
           handleCommentsClose={handleCommentsClose}
+          showComments={showComments}
         />
       )}
     </>

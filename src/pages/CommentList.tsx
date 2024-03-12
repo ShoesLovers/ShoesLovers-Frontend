@@ -1,30 +1,50 @@
-import { useEffect } from 'react';
-import { CommentType, PostType } from '../helpers/types';
-import { getCommentsAPI } from '../api/comment_api';
-import CommentForm from '../components/CommentForm';
-import { getPost, getPostById } from '../api/post_api';
+import { CommentType } from '../helpers/types';
+import Comment from '../components/Comment';
+import { Modal } from 'react-bootstrap';
+import {
+  MDBCard,
+  MDBCardBody,
+  MDBCol,
+  MDBContainer,
+  MDBRow,
+} from 'mdb-react-ui-kit';
 
 export default function CommentList({
   comments,
   setComments,
   handleCommentsClose,
-  post,
+  showComments,
 }: {
-  post: PostType;
   comments: CommentType[];
   setComments: (comments: CommentType[]) => void;
   handleCommentsClose: () => void;
+  showComments: boolean;
 }) {
   return (
-    <div>
-      <>
-        <h1>Number or comments: {comments.length}</h1>
-        {comments.map(
-          comment => (
-            console.log(comment), (<h5 key={comment._id}>{comment.content}</h5>)
-          )
-        )}
-      </>
-    </div>
+    <Modal show={showComments} onHide={handleCommentsClose}>
+      <MDBContainer className="mt-5">
+        <MDBRow className="">
+          <MDBCol md={8} lg={6}>
+            <MDBCard
+              className="shadow-0 border"
+              style={{
+                backgroundColor: '#f0f2f5',
+                marginBottom: '20px',
+              }}
+            >
+              <MDBCardBody>
+                {comments.map(comment => (
+                  <Comment
+                    key={comment._id}
+                    comment={comment}
+                    setComments={setComments}
+                  />
+                ))}
+              </MDBCardBody>
+            </MDBCard>
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
+    </Modal>
   );
 }

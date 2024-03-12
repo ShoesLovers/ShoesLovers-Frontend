@@ -4,12 +4,8 @@ import PostForm from '../components/PostForm';
 import { PostType } from '../helpers/types';
 import { getPostsAPI } from '../api/post_api';
 
-const postsFromLocal: PostType[] = JSON.parse(
-  localStorage.getItem('posts') || '[]'
-);
-
 export default function PostsList({ isLoggedIn }: { isLoggedIn: boolean }) {
-  const [posts, setPosts] = useState<PostType[]>(postsFromLocal);
+  const [posts, setPosts] = useState<PostType[]>([] as PostType[]);
 
   useEffect(() => {
     async function renderPosts() {
