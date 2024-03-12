@@ -11,9 +11,11 @@ export default function Post({
   post,
   setPosts,
   posts,
+  refetch,
 }: {
   posts: PostType[];
   post: PostType;
+  refetch: () => void;
   setPosts: (posts: PostType[]) => void;
 }) {
   const { accessToken } = useTokens();
@@ -36,7 +38,7 @@ export default function Post({
     await deletePostAPI(post._id, accessToken);
     const updatedPostsArray = posts.filter(p => p._id !== post._id);
     setPosts(updatedPostsArray);
-    localStorage.setItem('posts', JSON.stringify(updatedPostsArray));
+    refetch();
   };
 
   useEffect(() => {
@@ -67,9 +69,6 @@ export default function Post({
                 </Button>
               </div>
             )}
-            <Card.Text className="mt-3">
-              Comments: {post.comments?.length}
-            </Card.Text>
             <Card.Body>
               <Button onClick={handleCommentFormShow} variant="primary">
                 Add Comment
@@ -77,7 +76,7 @@ export default function Post({
             </Card.Body>
 
             <Button variant="outline-info" onClick={handleCommentsShow}>
-              Comments
+              Comments : {post.comments?.length}
             </Button>
           </Card.Body>
         </Card>
