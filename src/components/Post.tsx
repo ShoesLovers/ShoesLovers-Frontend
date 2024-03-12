@@ -1,10 +1,12 @@
 import { Card, Button } from 'react-bootstrap';
 import { CommentType, PostType, User } from '../helpers/types';
-import { deletePostAPI } from '../api/post_api';
+import { deletePostAPI, getPostById } from '../api/post_api';
 import { useTokens } from '../hooks/useTokens';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CommentForm from './CommentForm';
 import EditPostForm from './EditPostForm';
+import { getCommentsAPI } from '../api/comment_api';
+import CommentList from '../pages/CommentList';
 
 export default function Post({
   post,
@@ -20,12 +22,16 @@ export default function Post({
   const userId = userFromLocal._id;
 
   const [showCommentForm, setShowCommentForm] = useState(false);
+  const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([] as CommentType[]);
 
   const [showEditForm, setShowEditForm] = useState(false);
 
-  const handleShow = () => setShowCommentForm(true);
-  const handleClose = () => setShowCommentForm(false);
+  const handleCommentFormShow = () => setShowCommentForm(true);
+  const handleCommentFormClose = () => setShowCommentForm(false);
+
+  const handleCommentsShow = () => setShowComments(true);
+  const handleCommentsClose = () => setShowComments(false);
 
   const handleDeletePost = async () => {
     await deletePostAPI(post._id, accessToken);
@@ -33,6 +39,17 @@ export default function Post({
     setPosts(updatedPostsArray);
     localStorage.setItem('posts', JSON.stringify(updatedPostsArray));
   };
+
+  useEffect(() => {
+    async function renderComments() {
+      const commentsFromDb: CommentType[] = (await getPostById(post._id))
+        .comments!;
+      setComments(commentsFromDb);
+      console.log(commentsFromDb);
+      console.log(comments);
+    }
+    renderComments();
+  }, []);
 
   return (
     <>
@@ -62,12 +79,14 @@ export default function Post({
               Comments: {post.comments?.length}
             </Card.Text>
             <Card.Body>
-              <Button onClick={handleShow} variant="primary">
+              <Button onClick={handleCommentFormShow} variant="primary">
                 Add Comment
               </Button>
             </Card.Body>
 
-            {/* <Button variant="outline-info">Comments</Button> */}
+            <Button variant="outline-info" onClick={handleCommentsShow}>
+              Comments
+            </Button>
           </Card.Body>
         </Card>
       </center>
@@ -84,13 +103,21 @@ export default function Post({
 
       {showCommentForm && (
         <CommentForm
-          show={showCommentForm}
+          showCommentForm={showCommentForm}
           setPosts={setPosts}
           setComments={setComments}
           post={post}
           comments={comments!}
           posts={posts}
-          handleClose={handleClose}
+          setShowCommentForm={handleCommentFormClose}
+        />
+      )}
+      {showComments && (
+        <CommentList
+          post={post}
+          comments={comments}
+          setComments={setComments}
+          handleCommentsClose={handleCommentsClose}
         />
       )}
     </>

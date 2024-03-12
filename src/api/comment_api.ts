@@ -43,7 +43,7 @@ export async function deleteCommentAPI(id: string, accessToken: string) {
       });
   });
 }
-export async function getCommentsAPI() {
+export async function getCommentsAPI(id: string) {
   return new Promise<CommentType[]>((resolve, reject) => {
     apiClient
       .get(`/comment`)

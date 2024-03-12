@@ -89,3 +89,21 @@ export async function editPostAPI(
       });
   });
 }
+export async function getPostById(id: string) {
+  const accessToken = localStorage.getItem('accessToken');
+  return new Promise<PostType>((resolve, reject) => {
+    apiClient
+      .get(`/post/${id}`, {
+        headers: {
+          Authorization: `JWT ${accessToken}`,
+        },
+      })
+      .then(response => {
+        resolve(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+        reject(error);
+      });
+  });
+}

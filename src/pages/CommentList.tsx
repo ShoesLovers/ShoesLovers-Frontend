@@ -1,64 +1,30 @@
 import { useEffect } from 'react';
-import { CommentType, PostType, User } from '../helpers/types';
+import { CommentType, PostType } from '../helpers/types';
 import { getCommentsAPI } from '../api/comment_api';
 import CommentForm from '../components/CommentForm';
+import { getPost, getPostById } from '../api/post_api';
 
 export default function CommentList({
-  isLoggedIn,
-  user,
-  setUser,
-  posts,
-  setPosts,
   comments,
   setComments,
+  handleCommentsClose,
+  post,
 }: {
-  isLoggedIn: boolean;
-  user: User;
-  setUser: (user: User) => void;
-  posts: PostType[];
-  setPosts: (posts: PostType[]) => void;
+  post: PostType;
   comments: CommentType[];
   setComments: (comments: CommentType[]) => void;
+  handleCommentsClose: () => void;
 }) {
-  useEffect(() => {
-    async function renderComments() {
-      const commentsFromDb: CommentType[] = await getCommentsAPI();
-      setComments(commentsFromDb);
-    }
-    renderComments();
-  }, [setComments]);
-
   return (
     <div>
-      {isLoggedIn ? (
-        <>
-          <CommentForm
-            comments={comments}
-            setComments={setComments}
-            posts={posts}
-            show={true}
-            handleClose={() => {}}
-            setPosts={setPosts}
-            post={posts[0]}
-            user={user}
-            setUser={setUser}
-          />
-          <h1>Number or comments: {comments.length}</h1>
-          {comments.map(comment => (
-            // <Comment
-            //   user={user}
-            //   setUser={setUser}
-            //   key={comment._id}
-            //   comment={comment}
-            //   setComments={setComments}
-            //   comments={comments}
-            // />
-            <h5 key={comment._id}>{comment.content}</h5>
-          ))}
-        </>
-      ) : (
-        <h1>Login to see the comments</h1>
-      )}
+      <>
+        <h1>Number or comments: {comments.length}</h1>
+        {comments.map(
+          comment => (
+            console.log(comment), (<h5 key={comment._id}>{comment.content}</h5>)
+          )
+        )}
+      </>
     </div>
   );
 }
