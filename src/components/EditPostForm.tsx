@@ -44,8 +44,10 @@ export default function EditPostForm({
 
   const onSubmit: SubmitHandler<PostFormValues> = async data => {
     if (!data.title && !data.message && !image) {
-      toast.error('No changes made!');
-      return;
+      if (post.message === '' && post.title === '') {
+        toast.error('No changes made!');
+        return;
+      }
     }
 
     let url;

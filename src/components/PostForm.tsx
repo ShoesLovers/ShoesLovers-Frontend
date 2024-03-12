@@ -1,4 +1,4 @@
-import { Button, Form, Image } from 'react-bootstrap';
+import { Button, Card, Form } from 'react-bootstrap';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PostType } from '../helpers/types';
@@ -42,8 +42,6 @@ export default function PostForm({
   };
 
   const onSubmit: SubmitHandler<PostFormValues> = async data => {
-    // let newPost: PostType;
-
     let url;
     if (image) {
       url = await uploadPhoto(image);
@@ -59,10 +57,19 @@ export default function PostForm({
   return (
     <center>
       <div style={{ backgroundColor: '' }}>
-        <Form style={{ width: '32rem' }} onSubmit={handleSubmit(onSubmit)}>
+        <Form style={{ width: '25rem' }} onSubmit={handleSubmit(onSubmit)}>
           <Form.Group className="mb-3" controlId="formFile">
-            <Form.Label>Upload the post image</Form.Label>
-            <Image src={image ? URL.createObjectURL(image) : ''} />
+            <Card
+              style={{
+                marginBottom: '40px',
+              }}
+            >
+              <Card.Img
+                variant="top"
+                src={image ? URL.createObjectURL(image) : ''}
+              />
+            </Card>
+
             <Form.Control type="file" onChange={handleImage} />
             {errors.image && <Form.Text>{errors.image.message}</Form.Text>}
           </Form.Group>
