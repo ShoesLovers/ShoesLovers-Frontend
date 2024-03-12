@@ -6,8 +6,8 @@ import NotFoundPage from './pages/NotFoundPage';
 import AppLayout from './components/AppLayout';
 import Register from './pages/Register';
 import MyAccount from './pages/MyAccount';
-import Posts from './pages/PostsList';
-import { CommentType, PostType, User } from './helpers/types';
+import PostsList from './pages/PostsList';
+import { User } from './helpers/types';
 import HomePage from './pages/HomePage';
 
 const userFromLocal: User = JSON.parse(localStorage.getItem('user') || '{}');
@@ -15,8 +15,7 @@ const userFromLocal: User = JSON.parse(localStorage.getItem('user') || '{}');
 function App() {
   const [user, setUser] = useState<User>(userFromLocal);
   const [isLoggedIn, setIsLoggedIn] = useState(Object.keys(user).length > 0);
-  const [posts, setPosts] = useState([] as PostType[]);
-  const [comments, setComments] = useState([] as CommentType[]);
+
   const router = createBrowserRouter([
     {
       path: '/',
@@ -57,15 +56,7 @@ function App() {
         },
         {
           path: 'posts',
-          element: (
-            <Posts
-              isLoggedIn={isLoggedIn}
-              user={user}
-              setUser={setUser}
-              posts={posts}
-              setPosts={setPosts}
-            />
-          ),
+          element: <PostsList isLoggedIn={isLoggedIn} />,
         },
 
         {

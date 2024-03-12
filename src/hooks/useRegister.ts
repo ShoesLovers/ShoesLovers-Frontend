@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { RegisterAPI } from '../api/auth';
+import { RegisterAPI } from '../api/auth_api';
 import { User } from '../helpers/types';
 import toast from 'react-hot-toast';
 import { RegisterFormFields } from '../pages/Register';

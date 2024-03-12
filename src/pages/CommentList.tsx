@@ -40,6 +40,8 @@ export default function CommentList({
             handleClose={() => {}}
             setPosts={setPosts}
             post={posts[0]}
+            user={user}
+            setUser={setUser}
           />
           <h1>Number or comments: {comments.length}</h1>
           {comments.map(comment => (

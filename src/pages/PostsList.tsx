@@ -1,51 +1,38 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Post from '../components/Post';
 import PostForm from '../components/PostForm';
-import { PostType, User } from '../helpers/types';
+import { PostType } from '../helpers/types';
 import { getPostsAPI } from '../api/post_api';
 
-export default function PostsList({
-  isLoggedIn,
-  user,
-  setUser,
-  posts,
-  setPosts,
-}: {
-  isLoggedIn: boolean;
-  user: User;
-  setUser: (user: User) => void;
-  posts: PostType[];
-  setPosts: (posts: PostType[]) => void;
-}) {
+const postsFromLocal: PostType[] = JSON.parse(
+  localStorage.getItem('posts') || '[]'
+);
+
+export default function PostsList({ isLoggedIn }: { isLoggedIn: boolean }) {
+  const [posts, setPosts] = useState<PostType[]>(postsFromLocal);
+
   useEffect(() => {
     async function renderPosts() {
       const postsFromDb: PostType[] = await getPostsAPI();
-      setPosts(postsFromDb);
+      setPosts(postsFromDb.reverse());
     }
     renderPosts();
-  }, [setPosts]);
+  }, []);
 
   return (
     <div>
       {isLoggedIn ? (
         <>
-          <PostForm
-            posts={posts}
-            setPosts={setPosts}
-            setUser={setUser}
-            user={user}
-          />
-          <h1>Number or posts: {posts.length}</h1>
+          <PostForm posts={posts} setPosts={setPosts} />
           {posts.map(post => (
             <Post
-              user={user}
-              setUser={setUser}
               key={post._id}
               post={post}
               setPosts={setPosts}
               posts={posts}
             />
           ))}
+          <h5>Number or posts: {posts.length}</h5>
         </>
       ) : (
         <h1>Login to see the posts</h1>

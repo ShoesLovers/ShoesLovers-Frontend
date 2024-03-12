@@ -1,11 +1,11 @@
 import { Button, Form, Image } from 'react-bootstrap';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PostType, User } from '../helpers/types';
+import { PostType } from '../helpers/types';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ChangeEvent, useState } from 'react';
 import { useTokens } from '../hooks/useTokens';
-import { uploadPhoto } from '../api/auth';
+import { uploadPhoto } from '../api/auth_api';
 import { createPostAPI } from '../api/post_api';
 
 const schema = z.object({
@@ -13,18 +13,15 @@ const schema = z.object({
   message: z.string().min(1).max(255),
   title: z.string().min(1).max(255),
 });
+
 export type PostFormValues = z.infer<typeof schema>;
 
 export default function PostForm({
   setPosts,
   posts,
-  setUser,
-  user,
 }: {
   setPosts: (posts: PostType[]) => void;
   posts: PostType[];
-  user: User;
-  setUser: (user: User) => void;
 }) {
   const {
     handleSubmit,
@@ -54,11 +51,8 @@ export default function PostForm({
     setValue('image', url);
     const newData = { ...data, image: url };
     const newPost = await createPostAPI(accessToken, newData);
-    console.log(newPost);
-    const updatedUser = { ...user, posts: [newPost, ...user.posts] };
-    localStorage.setItem('user', JSON.stringify(updatedUser));
 
-    setUser(updatedUser);
+    localStorage.setItem('posts', JSON.stringify([newPost, ...posts]));
     setPosts([newPost, ...posts]);
   };
 
