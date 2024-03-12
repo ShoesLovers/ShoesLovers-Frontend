@@ -7,6 +7,7 @@ import { creatCommentAPI } from '../api/comment_api';
 import { CommentType, PostType } from '../helpers/types';
 import toast from 'react-hot-toast';
 import { getPostById } from '../api/post_api';
+import MySpinner from './MySpinner';
 
 const schema = z.object({
   content: z.string().min(1).max(255),
@@ -34,7 +35,7 @@ export default function CommentForm({
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<CommentFormValues>({
     resolver: zodResolver(schema),
   });
@@ -53,6 +54,8 @@ export default function CommentForm({
     setShowCommentForm(false);
     toast.success('Comment successfully added!');
   };
+
+  if (isSubmitting) return <MySpinner />;
 
   return (
     <Modal show={showCommentForm} onHide={() => setShowCommentForm(false)}>
