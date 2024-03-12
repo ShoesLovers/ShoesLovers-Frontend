@@ -71,7 +71,6 @@ export async function editPostAPI(
   accessToken: string,
   postValues: UpdateFormValues
 ) {
-  console.log(postValues);
   return new Promise<PostType>((resolve, reject) => {
     apiClient
       .put(`/post/${id}`, postValues, {
