@@ -1,5 +1,5 @@
 import { Col, Container, Form, Image, Row } from 'react-bootstrap';
-import { uploadPhoto } from '../api/auth';
+import { uploadPhoto } from '../api/auth_api';
 import { UpdateUserAPI } from '../api/account_api';
 import { User } from '../helpers/types';
 import { z } from 'zod';
@@ -45,6 +45,7 @@ export default function UpdateUserForm({
       toast.error('No changes made!');
       return;
     }
+
     let url;
     if (image) {
       url = await uploadPhoto(image!);

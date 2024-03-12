@@ -1,5 +1,5 @@
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
-import { LoginWithGoogleAPI } from '../api/auth';
+import { LoginWithGoogleAPI } from '../api/auth_api';
 import { UserWithTokens } from '../helpers/types';
 import { User } from '../helpers/types';
 import toast from 'react-hot-toast';

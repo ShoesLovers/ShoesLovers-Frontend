@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { LogoutAPI } from '../api/auth';
+import { LogoutAPI } from '../api/auth_api';
 import { removeFromLocal } from '../helpers/saveToLocal';
 import toast from 'react-hot-toast';
 import { User } from '../helpers/types';

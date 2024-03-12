@@ -6,11 +6,11 @@ import { useTokens } from '../hooks/useTokens';
 import { creatCommentAPI } from '../api/comment_api';
 import { CommentType, PostType } from '../helpers/types';
 
-const schena = z.object({
+const schema = z.object({
   content: z.string().min(1).max(255),
 });
 
-export type CommentFormValues = z.infer<typeof schena>;
+export type CommentFormValues = z.infer<typeof schema>;
 
 export default function CommentForm({
   show,
@@ -23,7 +23,6 @@ export default function CommentForm({
 }: {
   show: boolean;
   handleClose: () => void;
-
   setPosts: (posts: PostType[]) => void;
   posts: PostType[];
   comments: CommentType[];
@@ -35,17 +34,18 @@ export default function CommentForm({
     register,
     formState: { errors },
   } = useForm<CommentFormValues>({
-    resolver: zodResolver(schena),
+    resolver: zodResolver(schema),
   });
   const { accessToken } = useTokens();
   const onSubmit: SubmitHandler<CommentFormValues> = async data => {
     const newComment = await creatCommentAPI(accessToken, data, post._id);
+    setComments([...comments, newComment]);
+
     const updatedPost = {
       ...post,
       comments: [...(post.comments || []), newComment],
     };
     setPosts([...posts, updatedPost]);
-    setComments([...comments, newComment]);
   };
 
   return (

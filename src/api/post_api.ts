@@ -1,4 +1,5 @@
 import { PostFormValues } from '../components/PostForm';
+import { UpdateFormValues } from '../components/UpdateUserForm';
 import { PostType } from '../helpers/types';
 import apiClient from './apiClient';
 
@@ -59,6 +60,31 @@ export function getPostsAPI() {
         resolve(response.data);
       })
       .catch(error => {
+        console.log(error);
+        reject(error);
+      });
+  });
+}
+
+export async function editPostAPI(
+  id: string,
+  accessToken: string,
+  postValues: UpdateFormValues
+) {
+  console.log(postValues);
+  return new Promise<PostType>((resolve, reject) => {
+    apiClient
+      .put(`/post/${id}`, postValues, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `JWT ${accessToken}`,
+        },
+      })
+      .then(response => {
+        resolve(response.data);
+      })
+      .catch(error => {
+        console.log('test');
         console.log(error);
         reject(error);
       });

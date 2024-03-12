@@ -15,7 +15,7 @@ import { useRegister } from '../hooks/useRegister';
 import { User } from '../helpers/types';
 import avatar from '../assets/images/default.jpg';
 import { useState } from 'react';
-import { uploadPhoto } from '../api/auth';
+import { uploadPhoto } from '../api/auth_api';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import MySpinner from '../components/MySpinner';
 
