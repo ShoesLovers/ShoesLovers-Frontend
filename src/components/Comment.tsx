@@ -20,6 +20,8 @@ export default function Comment({
   setPosts: (posts: PostType[]) => void;
 }) {
   const { accessToken } = useTokens();
+  const handleShow = () => setShowComment(true);
+  const handleClose = () => setShowComment(false);
   const handleDeleteComment = async () => {
     await deleteCommentAPI(comment._id, accessToken);
     const updatedComments = comments.filter(

@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTokens } from '../hooks/useTokens';
 import { creatCommentAPI } from '../api/comment_api';
 import { CommentType, PostType } from '../helpers/types';
+import toast from 'react-hot-toast';
 
 const schema = z.object({
   content: z.string().min(1).max(255),
@@ -13,21 +14,21 @@ const schema = z.object({
 export type CommentFormValues = z.infer<typeof schema>;
 
 export default function CommentForm({
-  show,
-  handleClose,
   comments,
   setComments,
   setPosts,
   posts,
   post,
+  showCommentForm,
+  setShowCommentForm,
 }: {
-  show: boolean;
-  handleClose: () => void;
   setPosts: (posts: PostType[]) => void;
   posts: PostType[];
   comments: CommentType[];
   setComments: (comments: CommentType[]) => void;
   post: PostType;
+  showCommentForm: boolean;
+  setShowCommentForm: (state: boolean) => void;
 }) {
   const {
     handleSubmit,
@@ -39,17 +40,22 @@ export default function CommentForm({
   const { accessToken } = useTokens();
   const onSubmit: SubmitHandler<CommentFormValues> = async data => {
     const newComment = await creatCommentAPI(accessToken, data, post._id);
+
     setComments([...comments, newComment]);
 
     const updatedPost = {
       ...post,
       comments: [...(post.comments || []), newComment],
     };
+
     setPosts([...posts, updatedPost]);
+    console.log('posts', updatedPost);
+    setShowCommentForm(false);
+    toast.success('Comment successfully added!');
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={showCommentForm} onHide={() => setShowCommentForm(false)}>
       <Modal.Header closeButton>
         <Modal.Title>Comment</Modal.Title>
       </Modal.Header>
@@ -66,7 +72,10 @@ export default function CommentForm({
             {errors.content && <Form.Text>{errors.content.message}</Form.Text>}
           </Form.Group>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+            <Button
+              variant="secondary"
+              onClick={() => setShowCommentForm(false)}
+            >
               Close
             </Button>
             <Button variant="primary" type="submit">
