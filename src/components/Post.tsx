@@ -107,7 +107,6 @@ export default function Post({
       {showComments && (
         <CommentList
           comments={comments}
-          setComments={setComments}
           handleCommentsClose={handleCommentsClose}
           showComments={showComments}
         />
