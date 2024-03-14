@@ -53,7 +53,7 @@ export default function PostForm({
     const newData = { ...data, image: url };
     const newPost = await createPostAPI(accessToken, newData);
 
-    setPosts([newPost, ...posts]);
+    setPosts([...posts, newPost]);
     refetch();
     setValue('image', '');
     setValue('title', '');

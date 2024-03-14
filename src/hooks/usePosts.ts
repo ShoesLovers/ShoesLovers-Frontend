@@ -23,7 +23,7 @@ function usePosts(): UsePostsReturnType {
 
   useEffect(() => {
     if (data) {
-      setPosts(data.reverse()); // Reverse the order of fetched posts
+      setPosts(data);
     }
   }, [data, setPosts]);
 
