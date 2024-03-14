@@ -7,7 +7,7 @@ const openai = new OpenAI({
 export async function generateImageAPI(prompt: string) {
   try {
     const response = await openai.images.generate({
-      prompt,
+      prompt: prompt + 'sneakers shoes',
       n: 1,
       size: '512x512',
     });
