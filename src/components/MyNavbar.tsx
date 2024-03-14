@@ -13,6 +13,7 @@ import { MdManageAccounts } from 'react-icons/md';
 import { LiaCommentSolid } from 'react-icons/lia';
 import { useLogout } from '../hooks/useLogout';
 import MySpinner from './MySpinner';
+import toast from 'react-hot-toast';
 export default function MyNavBar({
   user,
   setUser,
@@ -24,6 +25,15 @@ export default function MyNavBar({
 
   const toggleShowMyImage = () => {
     setShowMyImage(!showMyImage);
+  };
+
+  const handleLogout = () => {
+    try {
+      logout();
+      toast.success('You have been successfully logged out!');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   if (isPending) return <MySpinner />;
@@ -115,7 +125,7 @@ export default function MyNavBar({
                   style={{
                     marginRight: '0.2rem',
                   }}
-                  onClick={() => logout()}
+                  onClick={handleLogout}
                 >
                   <CiLogout size="1.6em" />
                 </NavLink>

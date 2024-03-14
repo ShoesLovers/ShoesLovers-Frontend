@@ -6,14 +6,17 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 export default function LoginWithGoogle({
+  setIsLoading,
   setUser,
   setIsLoggedIn,
 }: {
+  setIsLoading: (isLoading: boolean) => void;
   setUser: (user: User) => void;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
 }) {
   const navigate = useNavigate();
   const onSuccess = async (response: CredentialResponse) => {
+    setIsLoading(true);
     try {
       const userWithToken: UserWithTokens = await LoginWithGoogleAPI(response);
       const { account: user, accessToken, refreshToken } = userWithToken;
@@ -29,6 +32,7 @@ export default function LoginWithGoogle({
     } catch (err) {
       console.log(err);
     }
+    setIsLoading(false);
   };
   const onFailure = () => {
     console.log('Failed to login with Google');

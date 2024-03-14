@@ -61,10 +61,15 @@ export default function UpdateUserForm({
         accessToken,
         updatedData
       );
-      setUser(user);
+      setUser(updatedUser);
       saveToLocal(updatedUser, accessToken, refreshToken);
 
       toast.success('User updated successfully!');
+
+      setValue('name', '');
+      setValue('email', '');
+      setValue('password', '');
+      setValue('image', '');
     } catch (err) {
       toast.error('Something went wrong!');
     }
@@ -95,7 +100,7 @@ export default function UpdateUserForm({
             <Form style={{ width: '32rem' }} onSubmit={handleSubmit(onSubmit)}>
               <Form.Group className="mb-3 mt-5" controlId="formFile">
                 <center>
-                  <div className="d -flex justify-content-center position-relative">
+                  <div className="d -flex justify-content-center position-relative mb-3">
                     <div style={{ height: '230px', width: '230px' }}>
                       <Image
                         src={image ? URL.createObjectURL(image) : user.image!}
@@ -106,7 +111,6 @@ export default function UpdateUserForm({
                   </div>
                 </center>
 
-                <Form.Label>Upload Profie Image</Form.Label>
                 <Form.Control type="file" onChange={handleImage} />
               </Form.Group>
 

@@ -25,7 +25,9 @@ export async function creatCommentAPI(
       });
   });
 }
-export async function deleteCommentAPI(id: string, accessToken: string) {
+
+export async function deleteCommentAPI(id: string) {
+  const accessToken = localStorage.getItem('accessToken');
   return new Promise<void>((resolve, reject) => {
     apiClient
       .delete(`/comment/${id}`, {
@@ -43,6 +45,7 @@ export async function deleteCommentAPI(id: string, accessToken: string) {
       });
   });
 }
+
 export async function getCommentById(id: string) {
   return new Promise<CommentType>((resolve, reject) => {
     apiClient
@@ -51,6 +54,27 @@ export async function getCommentById(id: string) {
         resolve(response.data);
       })
       .catch(error => {
+        console.log(error);
+        reject(error);
+      });
+  });
+}
+
+export async function updateCommentAPI(id: string, comment: CommentFormValues) {
+  const accessToken = localStorage.getItem('accessToken');
+  return new Promise<CommentType>((resolve, reject) => {
+    apiClient
+      .put(`/comment/${id}`, comment, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `JWT ${accessToken}`,
+        },
+      })
+      .then(response => {
+        resolve(response.data);
+      })
+      .catch(error => {
+        console.log('test');
         console.log(error);
         reject(error);
       });

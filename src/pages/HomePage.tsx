@@ -14,13 +14,14 @@ import {
 import toast from 'react-hot-toast';
 import defaultImage from '../assets/images/shoes.jpg';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Spinner from 'react-bootstrap/Spinner';
+import MySpinner from '../components/MySpinner';
 
 export default function HomePage() {
   const [shoesImage, setShoesImage] = useState<string>('');
   const [prompt, setPrompt] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { mutate: generate, isPending } = useMutation({
+  const { mutate: generate } = useMutation({
     mutationFn: (prompt: string) => generateImageAPI(prompt),
     onSuccess: async data => {
       if (data.length > 0 && data[0].url) {
@@ -36,30 +37,18 @@ export default function HomePage() {
       toast.error('Please include the word "shoes" in the prompt');
       return;
     }
-
+    setIsLoading(true);
     generate(prompt, {
       onSettled: () => {
         setPrompt('');
+        setIsLoading(false);
       },
     });
     e.preventDefault();
   };
 
-  if (isPending) {
-    return (
-      <center>
-        <Spinner
-          animation="border"
-          role="status"
-          variant="secondary"
-          style={{
-            marginTop: '20%',
-            width: '100px',
-            height: '100px',
-          }}
-        />
-      </center>
-    );
+  if (isLoading) {
+    return <MySpinner />;
   }
   return (
     <Container
@@ -107,7 +96,7 @@ export default function HomePage() {
                 type="submit"
                 variant="outline-dark"
                 size="lg"
-                disabled={isPending}
+                disabled={isLoading}
                 style={{
                   marginBottom: '30px',
                 }}

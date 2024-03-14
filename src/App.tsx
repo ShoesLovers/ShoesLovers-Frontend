@@ -56,7 +56,7 @@ function App() {
         },
         {
           path: 'posts',
-          element: <PostsList isLoggedIn={isLoggedIn} />,
+          element: <PostsList isLoggedIn={isLoggedIn} user={user} />,
         },
 
         {

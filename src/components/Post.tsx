@@ -6,13 +6,17 @@ import { useEffect, useState } from 'react';
 import CommentForm from './CommentForm';
 import EditPostForm from './EditPostForm';
 import CommentList from '../pages/CommentList';
+import MySpinner from './MySpinner';
+import toast from 'react-hot-toast';
 
 export default function Post({
+  user,
   post,
   setPosts,
   posts,
   refetch,
 }: {
+  user: User;
   posts: PostType[];
   post: PostType;
   refetch: () => void;
@@ -22,8 +26,11 @@ export default function Post({
   const userFromLocal: User = JSON.parse(localStorage.getItem('user') || '{}');
   const userId = userFromLocal._id;
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [showComments, setShowComments] = useState(false);
+
   const [comments, setComments] = useState([] as CommentType[]);
 
   const [showEditForm, setShowEditForm] = useState(false);
@@ -35,15 +42,22 @@ export default function Post({
   const handleCommentsClose = () => setShowComments(false);
 
   const handleDeletePost = async () => {
+    setIsLoading(true);
     await deletePostAPI(post._id, accessToken);
     const updatedPostsArray = posts.filter(p => p._id !== post._id);
     setPosts(updatedPostsArray);
     refetch();
+    toast.success('Post successfully deleted!');
+    setIsLoading(false);
   };
 
   useEffect(() => {
     setComments(post.comments || []);
   }, [post.comments]);
+
+  if (isLoading) {
+    return <MySpinner />;
+  }
 
   return (
     <>
@@ -84,6 +98,7 @@ export default function Post({
 
       {showEditForm && (
         <EditPostForm
+          setIsLoading={setIsLoading}
           showEditForm={showEditForm}
           setShowEditForm={setShowEditForm}
           posts={posts}
@@ -94,6 +109,7 @@ export default function Post({
 
       {showCommentForm && (
         <CommentForm
+          setIsLoading={setIsLoading}
           showCommentForm={showCommentForm}
           setPosts={setPosts}
           setComments={setComments}
@@ -106,7 +122,11 @@ export default function Post({
 
       {showComments && (
         <CommentList
+          refetch={refetch}
+          post={post}
+          user={user}
           comments={comments}
+          setComments={setComments}
           handleCommentsClose={handleCommentsClose}
           showComments={showComments}
         />

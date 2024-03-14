@@ -19,12 +19,14 @@ const schema = z.object({
 export type PostFormValues = z.infer<typeof schema>;
 
 export default function EditPostForm({
+  setIsLoading,
   post,
   posts,
   setPosts,
   showEditForm,
   setShowEditForm,
 }: {
+  setIsLoading: (state: boolean) => void;
   post: PostType;
   posts: PostType[];
   setPosts: (posts: PostType[]) => void;
@@ -44,6 +46,7 @@ export default function EditPostForm({
   const { accessToken } = useTokens();
 
   const onSubmit: SubmitHandler<PostFormValues> = async data => {
+    setIsLoading(true);
     if (!data.title && !data.message && !image) {
       return toast.error('You must provide at least one field to update');
     }
@@ -71,6 +74,7 @@ export default function EditPostForm({
     } catch (err) {
       toast.error('Something went wrong!');
     }
+    setIsLoading(false);
   };
 
   const handleImage = async (e: ChangeEvent<HTMLInputElement>) => {
