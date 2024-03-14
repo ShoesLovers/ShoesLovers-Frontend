@@ -1,4 +1,4 @@
-import { Col, Container, Form, Image, Row } from 'react-bootstrap';
+import { Col, Container, Form, Row } from 'react-bootstrap';
 import { uploadPhoto } from '../api/auth_api';
 import { UpdateUserAPI } from '../api/account_api';
 import { User } from '../helpers/types';
@@ -10,6 +10,7 @@ import { ChangeEvent, useState } from 'react';
 import { saveToLocal } from '../helpers/saveToLocal';
 import toast from 'react-hot-toast';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import { MDBCardImage } from 'mdb-react-ui-kit';
 
 import { FaRegEdit } from 'react-icons/fa';
 import MySpinner from './MySpinner';
@@ -101,11 +102,13 @@ export default function UpdateUserForm({
               <Form.Group className="mb-3 mt-5" controlId="formFile">
                 <center>
                   <div className="d -flex justify-content-center position-relative mb-3">
-                    <div style={{ height: '230px', width: '230px' }}>
-                      <Image
+                    <div>
+                      <MDBCardImage
+                        style={{ height: '360px', width: '300px' }}
                         src={image ? URL.createObjectURL(image) : user.image!}
-                        roundedCircle
-                        className="img-fluid"
+                        alt="Avatar"
+                        className="my-5 rounded img-thumbnail shadow-2-strong d-block  mx-auto  "
+                        fluid
                       />
                     </div>
                   </div>
