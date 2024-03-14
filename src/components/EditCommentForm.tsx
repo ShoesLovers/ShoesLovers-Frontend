@@ -1,12 +1,10 @@
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useTokens } from '../hooks/useTokens';
-import { creatCommentAPI } from '../api/comment_api';
-import { CommentType, PostType } from '../helpers/types';
+import { CommentType } from '../helpers/types';
+import { updateCommentAPI } from '../api/comment_api';
 import toast from 'react-hot-toast';
-import { getPostById } from '../api/post_api';
 
 const schema = z.object({
   content: z.string().min(1).max(255),
@@ -14,54 +12,52 @@ const schema = z.object({
 
 export type CommentFormValues = z.infer<typeof schema>;
 
-export default function CommentForm({
-  setIsLoading,
+export default function EditCommentForm({
+  refetch,
   comments,
   setComments,
-  setPosts,
-  posts,
-  post,
-  showCommentForm,
-  setShowCommentForm,
+  setIsLoading,
+  showEditComment,
+  setShowEditComment,
+  comment,
 }: {
-  setIsLoading: (state: boolean) => void;
-  setPosts: (posts: PostType[]) => void;
-  posts: PostType[];
+  refetch: () => void;
   comments: CommentType[];
   setComments: (comments: CommentType[]) => void;
-  post: PostType;
-  showCommentForm: boolean;
-  setShowCommentForm: (state: boolean) => void;
+  setIsLoading: (state: boolean) => void;
+  showEditComment: boolean;
+  setShowEditComment: (state: boolean) => void;
+  comment: CommentType;
 }) {
   const {
-    handleSubmit,
     register,
+    handleSubmit,
     formState: { errors },
   } = useForm<CommentFormValues>({
     resolver: zodResolver(schema),
   });
-  const { accessToken } = useTokens();
+
   const onSubmit: SubmitHandler<CommentFormValues> = async data => {
     setIsLoading(true);
-    const newComment = await creatCommentAPI(accessToken, data, post._id);
-
-    setComments([...comments, newComment]);
-
-    const updatedPost = await getPostById(post._id);
-    const updatedPosts = posts.map(p =>
-      p._id === updatedPost._id ? updatedPost : p
-    );
-    setPosts(updatedPosts);
-
-    setShowCommentForm(false);
-    toast.success('Comment successfully added!');
+    try {
+      await updateCommentAPI(comment._id, data);
+      toast.success('Comment successfully updated!');
+      setShowEditComment(false);
+      const newComment: CommentType = { ...comment, content: data.content };
+      const updatedComments = comments.map(c =>
+        c._id === newComment._id ? newComment : c
+      );
+      setComments(updatedComments);
+      refetch();
+    } catch (error) {
+      console.log(error);
+    }
     setIsLoading(false);
   };
-
   return (
-    <Modal show={showCommentForm} onHide={() => setShowCommentForm(false)}>
+    <Modal show={showEditComment} onHide={() => setShowEditComment(false)}>
       <Modal.Header closeButton>
-        <Modal.Title>Comment</Modal.Title>
+        <Modal.Title>Edit Comment</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -71,14 +67,14 @@ export default function CommentForm({
               as="textarea"
               rows={3}
               {...register('content')}
-              placeholder="write your comment here"
+              placeholder={comment.content}
             />
             {errors.content && <Form.Text>{errors.content.message}</Form.Text>}
           </Form.Group>
           <Modal.Footer>
             <Button
               variant="secondary"
-              onClick={() => setShowCommentForm(false)}
+              onClick={() => setShowEditComment(false)}
             >
               Close
             </Button>

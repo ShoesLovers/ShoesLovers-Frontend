@@ -11,7 +11,7 @@ type UsePostsReturnType = {
 };
 
 function usePosts(): UsePostsReturnType {
-  const [posts, setPosts] = useState<PostType[]>([] as PostType[]); // [1
+  const [posts, setPosts] = useState<PostType[]>([] as PostType[]);
   const { data, isPending, refetch } = useQuery({
     queryKey: ['posts'],
     queryFn: getPostsAPI,

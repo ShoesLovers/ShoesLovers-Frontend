@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { LogoutAPI } from '../api/auth_api';
 import { removeFromLocal } from '../helpers/saveToLocal';
-import toast from 'react-hot-toast';
 import { User } from '../helpers/types';
 
 export function useLogout(
@@ -10,12 +9,11 @@ export function useLogout(
 ) {
   const { mutate: logout, isPending } = useMutation({
     mutationFn: LogoutAPI,
-    onSuccess: () => {
+    onSuccess: async () => {
       setIsLoggedIn(false);
       setUser({} as User);
 
       removeFromLocal('user', 'accessToken', 'refreshToken');
-      toast.success('You have successfully logged out 😄');
     },
   });
 

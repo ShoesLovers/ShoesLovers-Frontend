@@ -2,8 +2,15 @@ import Post from '../components/Post';
 import PostForm from '../components/PostForm';
 import usePosts from '../hooks/usePosts';
 import MySpinner from '../components/MySpinner';
+import { User } from '../helpers/types';
 
-export default function PostsList({ isLoggedIn }: { isLoggedIn: boolean }) {
+export default function PostsList({
+  isLoggedIn,
+  user,
+}: {
+  isLoggedIn: boolean;
+  user: User;
+}) {
   const { posts, setPosts, isPending, refetch } = usePosts();
 
   if (isPending) {
@@ -20,6 +27,7 @@ export default function PostsList({ isLoggedIn }: { isLoggedIn: boolean }) {
           </center>
           {posts.map(post => (
             <Post
+              user={user}
               key={post._id}
               post={post}
               setPosts={setPosts}

@@ -38,7 +38,6 @@ export default function Register({
   setIsLoggedIn: (isLoggedIn: boolean) => void;
 }) {
   const {
-    getValues,
     setValue,
     register,
     handleSubmit,
@@ -81,8 +80,6 @@ export default function Register({
       setImage(e.target.files[0]);
       setValue('image', URL.createObjectURL(e.target.files[0]));
     }
-    console.log(getValues());
-    console.log(getValues('image'));
   };
 
   if (isPending) {

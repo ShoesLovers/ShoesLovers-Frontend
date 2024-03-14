@@ -6,8 +6,7 @@ import App from './App.tsx';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const queryClient = new QueryClient();
-const clientId =
-  '702891572984-74iafb6n4jrcdb6dmf6fbav8i54grct0.apps.googleusercontent.com';
+const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <GoogleOAuthProvider clientId={clientId}>

@@ -9,6 +9,7 @@ import { User } from '../helpers/types';
 import { Link } from 'react-router-dom';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import MySpinner from '../components/MySpinner';
+import { useState } from 'react';
 
 const schema = z.object({
   email: z.string().email(),
@@ -35,6 +36,7 @@ export default function Login({
     resolver: zodResolver(schema),
   });
 
+  const [isLoading, setIsLoading] = useState(false);
   const { login, isPending } = useLogin(setUser, setIsLoggedIn);
 
   const onSubmit: SubmitHandler<LoginFormFields> = async data => {
@@ -47,7 +49,7 @@ export default function Login({
     });
   };
 
-  if (isPending) {
+  if (isPending || isLoading) {
     return <MySpinner />;
   }
 
@@ -118,6 +120,7 @@ export default function Login({
               >
                 <center>
                   <LoginWithGoogle
+                    setIsLoading={setIsLoading}
                     setUser={setUser}
                     setIsLoggedIn={setIsLoggedIn}
                   />
