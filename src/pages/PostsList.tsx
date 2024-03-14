@@ -3,6 +3,8 @@ import PostForm from '../components/PostForm';
 import usePosts from '../hooks/usePosts';
 import MySpinner from '../components/MySpinner';
 import { User } from '../helpers/types';
+import { useState } from 'react';
+import { Button } from 'react-bootstrap';
 
 export default function PostsList({
   isLoggedIn,
@@ -12,6 +14,8 @@ export default function PostsList({
   user: User;
 }) {
   const { posts, setPosts, isPending, refetch } = usePosts();
+  const [showMyPosts, setShowMyPosts] = useState(false);
+  const myPosts = posts.filter(post => post.owner._id === user._id);
 
   if (isPending) {
     return <MySpinner />;
@@ -19,7 +23,12 @@ export default function PostsList({
 
   return (
     <div>
-      {isLoggedIn ? (
+      <center>
+        <Button onClick={() => setShowMyPosts(!showMyPosts)}>
+          {showMyPosts ? 'Show all posts' : 'Show my posts'}
+        </Button>
+      </center>
+      {isLoggedIn && !showMyPosts && (
         <>
           <PostForm posts={posts} setPosts={setPosts} refetch={refetch} />
           <center>
@@ -36,8 +45,22 @@ export default function PostsList({
             />
           ))}
         </>
-      ) : (
-        <h1>Login to see the posts</h1>
+      )}
+
+      {isLoggedIn && showMyPosts && (
+        <>
+          <h1>My posts ({myPosts.length})</h1>
+          {myPosts.map(post => (
+            <Post
+              user={user}
+              key={post._id}
+              post={post}
+              setPosts={setPosts}
+              posts={posts}
+              refetch={refetch}
+            />
+          ))}
+        </>
       )}
     </div>
   );
