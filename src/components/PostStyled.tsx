@@ -24,7 +24,7 @@ export default function PostStyled({
     <center>
       <Card
         style={{
-          width: '18rem',
+          width: '25rem',
           marginBottom: '30px',
           marginTop: '30px',
         }}

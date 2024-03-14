@@ -69,7 +69,6 @@ export default function Post({
         setShowEditForm={setShowEditForm}
         handleCommentsShow={handleCommentsShow}
       />
-
       {showEditForm && (
         <EditPostForm
           setIsLoading={setIsLoading}
