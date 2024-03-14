@@ -32,11 +32,11 @@ export default function HomePage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (prompt === '') return;
-    if (!prompt.toLowerCase().includes('shoes')) {
-      toast.error('Please include the word "shoes" in the prompt');
+    if (prompt === '') {
+      toast.error('Please enter a prompt');
       return;
     }
+
     setIsLoading(true);
     generate(prompt, {
       onSettled: () => {

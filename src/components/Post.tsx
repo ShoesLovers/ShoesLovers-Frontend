@@ -1,4 +1,3 @@
-import { Card, Button } from 'react-bootstrap';
 import { CommentType, PostType, User } from '../helpers/types';
 import { deletePostAPI } from '../api/post_api';
 import { useTokens } from '../hooks/useTokens';
@@ -8,6 +7,7 @@ import EditPostForm from './EditPostForm';
 import CommentList from '../pages/CommentList';
 import MySpinner from './MySpinner';
 import toast from 'react-hot-toast';
+import PostStyled from './PostStyled';
 
 export default function Post({
   user,
@@ -61,40 +61,14 @@ export default function Post({
 
   return (
     <>
-      <center className="mt-3 mb-3">
-        <Card style={{ width: '32rem' }}>
-          <Card.Img variant="top" src={post.image || ''} />
-          <Card.Body>
-            <Card.Text>{post.title}</Card.Text>
-            <Card.Text>{post.message}</Card.Text>
-          </Card.Body>
-          <Card.Body>
-            {userId === post.owner._id && (
-              <div>
-                <Button
-                  variant="secondary"
-                  onClick={() => setShowEditForm(true)}
-                >
-                  {' '}
-                  Edit Post
-                </Button>
-                <Button variant="info" onClick={handleDeletePost}>
-                  Delete Post
-                </Button>
-              </div>
-            )}
-            <Card.Body>
-              <Button onClick={handleCommentFormShow} variant="primary">
-                Add Comment
-              </Button>
-            </Card.Body>
-
-            <Button variant="outline-info" onClick={handleCommentsShow}>
-              Comments : {post.comments?.length}
-            </Button>
-          </Card.Body>
-        </Card>
-      </center>
+      <PostStyled
+        userId={userId}
+        post={post}
+        handleCommentFormShow={handleCommentFormShow}
+        handleDeletePost={handleDeletePost}
+        setShowEditForm={setShowEditForm}
+        handleCommentsShow={handleCommentsShow}
+      />
 
       {showEditForm && (
         <EditPostForm

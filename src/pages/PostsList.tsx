@@ -5,6 +5,7 @@ import MySpinner from '../components/MySpinner';
 import { User } from '../helpers/types';
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { MdPostAdd } from 'react-icons/md';
 
 export default function PostsList({
   isLoggedIn,
@@ -15,25 +16,37 @@ export default function PostsList({
 }) {
   const { posts, setPosts, isPending, refetch } = usePosts();
   const [showMyPosts, setShowMyPosts] = useState(false);
-  const myPosts = posts.filter(post => post.owner._id === user._id);
 
-  if (isPending) {
+  const myPosts = posts.filter(post => post.owner._id === user._id);
+  const [showAddPostForm, setShowAddPostForm] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  if (isPending || isLoading) {
     return <MySpinner />;
   }
 
   return (
     <div>
       <center>
-        <Button onClick={() => setShowMyPosts(!showMyPosts)}>
-          {showMyPosts ? 'Show all posts' : 'Show my posts'}
+        <Button
+          onClick={() => setShowMyPosts(!showMyPosts)}
+          variant="outline-dark"
+        >
+          {showMyPosts ? 'All Posts' : 'My Posts'}
         </Button>
+
+        <MdPostAdd
+          onClick={() => setShowAddPostForm(true)}
+          style={{
+            fontSize: '4em',
+            cursor: 'pointer',
+            marginLeft: '20px',
+          }}
+        />
       </center>
       {isLoggedIn && !showMyPosts && (
         <>
-          <PostForm posts={posts} setPosts={setPosts} refetch={refetch} />
-          <center>
-            <h3>Number of posts: {posts.length}</h3>
-          </center>
           {posts.map(post => (
             <Post
               user={user}
@@ -47,9 +60,22 @@ export default function PostsList({
         </>
       )}
 
+      {isLoggedIn && showAddPostForm && (
+        <PostForm
+          setIsLoading={setIsLoading}
+          refetch={refetch}
+          posts={posts}
+          setPosts={setPosts}
+          showAddPostForm={showAddPostForm}
+          setShowAddForm={setShowAddPostForm}
+        />
+      )}
+
       {isLoggedIn && showMyPosts && (
         <>
-          <h1>My posts ({myPosts.length})</h1>
+          <center>
+            <h1>My posts ({myPosts.length})</h1>
+          </center>
           {myPosts.map(post => (
             <Post
               user={user}

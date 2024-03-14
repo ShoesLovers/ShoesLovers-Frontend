@@ -3,8 +3,6 @@ import { Container, Nav, Navbar } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { userProps } from '../helpers/types';
 import ImageShape from './ImageShape';
-import { useState } from 'react';
-
 import { CiLogin } from 'react-icons/ci';
 import { CiLogout } from 'react-icons/ci';
 import { MdOutlineAppRegistration } from 'react-icons/md';
@@ -14,18 +12,14 @@ import { LiaCommentSolid } from 'react-icons/lia';
 import { useLogout } from '../hooks/useLogout';
 import MySpinner from './MySpinner';
 import toast from 'react-hot-toast';
+
 export default function MyNavBar({
   user,
   setUser,
   isLoggedIn,
   setIsLoggedIn,
 }: userProps) {
-  const [showMyImage, setShowMyImage] = useState(true);
   const { logout, isPending } = useLogout(setIsLoggedIn, setUser);
-
-  const toggleShowMyImage = () => {
-    setShowMyImage(!showMyImage);
-  };
 
   const handleLogout = () => {
     try {
@@ -37,11 +31,11 @@ export default function MyNavBar({
   };
 
   if (isPending) return <MySpinner />;
+
   return (
     <Navbar
       expand="md"
       className="bg-body-tertiary sticky-top"
-      onToggle={toggleShowMyImage}
       style={{
         fontFamily: 'Arial, sans-serif',
         fontSize: '1.2em',
@@ -132,22 +126,22 @@ export default function MyNavBar({
               </>
             )}
           </Nav>
-          {showMyImage && isLoggedIn && (
-            <>
-              <span
-                style={{
-                  color: '#35374B',
-                  fontFamily: 'Arial, sans-serif',
-                }}
-              >
-                {user?.name}
-              </span>
-              <div className="d-flex align-items-center">
-                <ImageShape user={user} />
-              </div>
-            </>
-          )}
         </Navbar.Collapse>
+        {isLoggedIn && (
+          <div className="d-flex align-items-center">
+            <span
+              style={{
+                color: '#35374B',
+                fontFamily: 'Arial, sans-serif',
+              }}
+            >
+              {user?.name}
+            </span>
+            <div className="ml-2">
+              <ImageShape user={user} />
+            </div>
+          </div>
+        )}
       </Container>
     </Navbar>
   );
