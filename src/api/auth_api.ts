@@ -6,13 +6,7 @@ import { LoginProps } from '../helpers/types';
 import { RegisterProps } from '../helpers/types';
 
 export async function LoginAPI({ email, password }: LoginProps) {
-  const response = await apiClient.post('/auth/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-  });
+  const response = await apiClient.post('/auth/login', { email, password });
   const data = await response.data;
   return data;
 }
