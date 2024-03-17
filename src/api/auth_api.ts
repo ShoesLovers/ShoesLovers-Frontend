@@ -6,14 +6,14 @@ import { LoginProps } from '../helpers/types';
 import { RegisterProps } from '../helpers/types';
 
 export async function LoginAPI({ email, password }: LoginProps) {
-  const response = await fetch('http://localhost:3000/auth/login', {
+  const response = await apiClient.post('auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
   });
-  const data = await response.json();
+  const data = await response.data;
   return data;
 }
 
