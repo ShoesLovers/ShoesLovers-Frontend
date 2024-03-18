@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import MySpinner from '../components/MySpinner';
 import { useState } from 'react';
+import '../style/login.css';
 
 const schema = z.object({
   email: z.string().email(),
@@ -56,10 +57,10 @@ export default function Login({
   return (
     <Container
       style={{
-        backgroundColor: '#EEEEEE',
         borderRadius: '20px',
       }}
     >
+      <h2 className="title">Shoes Lovers</h2>
       <Row className="justify-content-center mt-3">
         <Col sm={8} md={6} lg={4}>
           {!isLoggedIn ? (
@@ -74,6 +75,7 @@ export default function Login({
                     <Form.Control
                       {...register('email')}
                       type="email"
+                      className="email_span"
                       placeholder="test@gmail.com"
                     />
                   </FloatingLabel>
@@ -87,7 +89,7 @@ export default function Login({
                   <FloatingLabel
                     controlId="floatingInput"
                     label="Password"
-                    className="text-secondary"
+                    className="text-secondary password_span"
                   >
                     <Form.Control
                       {...register('password')}
@@ -100,32 +102,33 @@ export default function Login({
                   )}
                 </Form.Group>
 
-                <div className="text-center mt-4 mb-5">
+                <div className="text-center mt-4 mb-5 ">
                   <Button
                     size="lg"
                     variant="outline-success"
                     type="submit"
                     disabled={isPending}
+                    className="logIn"
                   >
-                    {isPending ? 'Loading...' : 'Submit'}
+                    {isPending ? 'Loading...' : 'Log In'}
                   </Button>
+                  <h5 className="or">Or</h5>
+                  <div
+                    className="text-center mt-3 mb-5"
+                    style={{
+                      width: '100%',
+                    }}
+                  >
+                    <center>
+                      <LoginWithGoogle
+                        setIsLoading={setIsLoading}
+                        setUser={setUser}
+                        setIsLoggedIn={setIsLoggedIn}
+                      />
+                    </center>
+                  </div>
                 </div>
               </Form>
-
-              <div
-                className="text-center mt-3 mb-5"
-                style={{
-                  width: '100%',
-                }}
-              >
-                <center>
-                  <LoginWithGoogle
-                    setIsLoading={setIsLoading}
-                    setUser={setUser}
-                    setIsLoggedIn={setIsLoggedIn}
-                  />
-                </center>
-              </div>
             </>
           ) : (
             <>
