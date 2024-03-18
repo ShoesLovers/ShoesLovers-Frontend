@@ -5,7 +5,7 @@ let url: string;
 if (process.env.NODE_ENV === 'development') {
   url = 'http://localhost:3000';
 } else {
-  url = 'https://193.106.55.189';
+  url = 'https://node29.cs.colman.ac.il';
 }
 
 export { CanceledError };
