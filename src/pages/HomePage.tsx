@@ -53,7 +53,7 @@ export default function HomePage() {
   return (
     <Container
       style={{
-        backgroundColor: '#EEEEEE',
+        backgroundColor: '#F8F8FF',
         borderRadius: '20px',
       }}
     >

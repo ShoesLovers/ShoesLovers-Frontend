@@ -91,7 +91,7 @@ export default function UpdateUserForm({
     <Container
       className="justify-content-center mt-3"
       style={{
-        backgroundColor: '#EEEEEE',
+        backgroundColor: '#F8F8FF',
         borderRadius: '20px',
       }}
     >

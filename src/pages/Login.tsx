@@ -56,7 +56,7 @@ export default function Login({
   }
 
   return (
-    <Container style={{ backgroundColor: '', marginTop: '20px' }}>
+    <Container>
       {!isLoggedIn ? (
         <MDBContainer fluid>
           <MDBRow>
@@ -157,11 +157,14 @@ export default function Login({
               <img
                 src="https://node29.cs.colman.ac.il/public/pic.png"
                 alt="Login image"
-                className="w-100"
                 style={{
                   objectFit: 'cover',
                   objectPosition: 'left',
-                  marginTop: '20%',
+                  marginTop: '10%',
+                  marginRight: '20%',
+                  width: '80%',
+                  boxShadow: '0 0px 10px 0 #000000',
+                  borderRadius: '10px',
                 }}
               />
             </MDBCol>

@@ -39,7 +39,7 @@ export default function MyNavBar({
       style={{
         fontFamily: 'Arial, sans-serif',
         fontSize: '1.2em',
-        backgroundColor: '#9fb6c3',
+        backgroundColor: '#F8F8FF',
       }}
     >
       <Container>

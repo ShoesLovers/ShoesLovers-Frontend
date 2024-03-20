@@ -27,6 +27,7 @@ export default function PostStyled({
           width: '25rem',
           marginBottom: '30px',
           marginTop: '30px',
+          boxShadow: '0 0 5px 0 rgba(100, 100, 100, 0.2)',
         }}
       >
         <Card.Title
