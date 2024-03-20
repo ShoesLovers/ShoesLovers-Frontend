@@ -35,10 +35,11 @@ export default function MyNavBar({
   return (
     <Navbar
       expand="md"
-      className="bg-body-tertiary sticky-top"
+      className=" sticky-top"
       style={{
         fontFamily: 'Arial, sans-serif',
         fontSize: '1.2em',
+        backgroundColor: '#9fb6c3',
       }}
     >
       <Container>
