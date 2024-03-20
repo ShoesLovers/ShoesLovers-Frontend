@@ -34,8 +34,8 @@ export default function EditPostForm({
   setShowEditForm: (state: boolean) => void;
 }) {
   const {
-    handleSubmit,
     setValue,
+    handleSubmit,
     register,
     formState: { errors, isSubmitting },
   } = useForm<PostFormValues>({
@@ -47,9 +47,6 @@ export default function EditPostForm({
 
   const onSubmit: SubmitHandler<PostFormValues> = async data => {
     setIsLoading(true);
-    if (!data.title && !data.message && !image) {
-      return toast.error('You must provide at least one field to update');
-    }
 
     let url;
     if (image) {
